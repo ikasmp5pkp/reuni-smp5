@@ -182,7 +182,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwiZZWRncEHHEydjzLbNUxCYs1lUyly3z2uYw93Voh2ti9l-n6fgDHvelfE9yc7R-xkAg/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPpV5Mq6GTHqVyEF-TO_lU23gV58_Nt0hXSJsWBfP494lWIs43rc3xxzEWm9zEki2CvA/exec"; 
 
         var swiper = new Swiper(".mySwiper", { spaceBetween: 0, effect: "fade", autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
 
@@ -204,48 +204,47 @@
         }
         document.addEventListener('click', function(){ music.play().catch(()=>{}); }, {once: true});
 
-        async function loadDinamisAset() {
-    try {
-        // Tambahkan timestamp agar tidak terkena cache browser
-        const res = await fetch(SCRIPT_URL + "?type=aset&t=" + new Date().getTime());
-        const data = await res.json();
-        
-        // Update Rundown
-        if(data.rundown) {
-            const rdImg = document.getElementById('rundownImg');
-            rdImg.src = data.rundown;
-            rdImg.onerror = function() { this.src = "https://via.placeholder.com/800x600?text=Gagal+Memuat+Gambar"; };
-        }
+       async function loadDinamisAset() {
+            try {
+                // Tampilkan loading teks pada gambar rundown sementara
+                const rdImg = document.getElementById('rundownImg');
+                
+                const res = await fetch(SCRIPT_URL + "?type=aset");
+                const data = await res.json();
+                
+                // 1. Update Rundown
+                if(data.rundown) {
+                    rdImg.src = data.rundown;
+                }
 
-        // Update Galeri
-        if(data.galeri && data.galeri.length > 0) {
-            const wrapper = document.getElementById('swiperWrapper');
-            wrapper.innerHTML = ""; // Bersihkan pesan "Memuat..."
-            
-            data.galeri.forEach((url, i) => {
-                const slide = document.createElement('div');
-                slide.className = 'swiper-slide';
-                slide.innerHTML = `
-                    <img src="${url}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Error+Load'">
-                    <div class="slide-caption">
-                        <h3 class="text-2xl font-bold">Kenangan #${i+1}</h3>
-                    </div>
-                `;
-                wrapper.appendChild(slide);
-            });
-            
-            // Re-inisialisasi Swiper agar mendeteksi slide baru
-            if (typeof swiper !== 'undefined') {
-                swiper.update();
-                swiper.autoplay.start();
+                // 2. Update Galeri
+                if(data.galeri && data.galeri.length > 0) {
+                    const wrapper = document.getElementById('swiperWrapper');
+                    wrapper.innerHTML = ""; // Bersihkan pesan memuat
+                    
+                    data.galeri.forEach((base64Url, i) => {
+                        const slide = document.createElement('div');
+                        slide.className = 'swiper-slide';
+                        slide.innerHTML = `
+                            <img src="${base64Url}" loading="lazy">
+                            <div class="slide-caption">
+                                <h3 class="text-2xl font-bold">Kenangan #${i+1}</h3>
+                            </div>
+                        `;
+                        wrapper.appendChild(slide);
+                    });
+                    
+                    // Update Swiper agar mengenali slide baru
+                    swiper.update();
+                    swiper.autoplay.start();
+                } else {
+                    document.getElementById('swiperWrapper').innerHTML = "<div class='swiper-slide text-white'>Belum ada foto di folder galeri.</div>";
+                }
+            } catch (e) { 
+                console.error("Aset Error:", e);
+                document.getElementById('swiperWrapper').innerHTML = "<div class='swiper-slide text-white'>Gagal memuat aset dari Drive.</div>";
             }
         }
-    } catch (e) { 
-        console.error("Aset Error:", e);
-        document.getElementById('loadingComments').innerText = "Gagal memuat aset dari Drive.";
-    }
-}
-
         async function submitToGoogleSheet(e) {
             e.preventDefault();
             const form = e.target, btn = document.getElementById('submitBtn'), loader = document.getElementById('btnLoader');
@@ -284,7 +283,7 @@
             } catch (e) { document.getElementById('loadingComments').innerText = "Gagal memuat."; }
         }
 
-        window.onload = () => { loadComments(); loadDinamisAset(); };
+        window.onload = () => { loadComments(); Aset(); };
     </script>
 </body>
 </html>
