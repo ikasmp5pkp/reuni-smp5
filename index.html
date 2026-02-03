@@ -1,155 +1,237 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reuni Akbar IKA SMPN 5 PKP</title>
+    <title>Reuni Akbar SMPN 5 Pangkal Pinang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        'primary': '#0f172a', // Dark Blue
-                        'accent': '#fbbf24',  // Gold
+                        brand: {
+                            dark: '#1e293b', // Slate 800
+                            primary: '#2563eb', // Blue 600
+                            gold: '#d97706', // Amber 600
+                        }
                     }
                 }
             }
         }
     </script>
     <style>
-        /* Animasi Gradient Background */
-        .animated-bg {
-            background: linear-gradient(-45deg, #0f172a, #1e3a8a, #3b0764, #0f172a);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+        /* Efek Hover Gambar */
+        .zoom-img {
+            transition: transform 0.5s ease;
         }
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        /* Glassmorphism Effect */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .zoom-container:hover .zoom-img {
+            transform: scale(1.05);
         }
     </style>
 </head>
-<body class="animated-bg text-white min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-gray-50 text-slate-800">
 
-    <div class="w-full max-w-md mx-auto space-y-6">
-
-        <div class="text-center space-y-2">
-            <div class="w-24 h-24 bg-white/10 rounded-full mx-auto flex items-center justify-center border-2 border-accent shadow-lg shadow-accent/20">
-                <i class="fas fa-graduation-cap text-4xl text-accent"></i>
+    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-2">
+                    <i class="fas fa-school text-brand-primary text-2xl"></i>
+                    <span class="font-bold text-xl tracking-tight text-brand-dark">IKA SMPN 5</span>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-gray-600 hover:text-brand-primary font-medium transition">Beranda</a>
+                    <a href="#about" class="text-gray-600 hover:text-brand-primary font-medium transition">Tentang Sekolah</a>
+                    <a href="#gallery" class="text-gray-600 hover:text-brand-primary font-medium transition">Galeri</a>
+                    <a href="#comments" class="text-gray-600 hover:text-brand-primary font-medium transition">Buku Tamu</a>
+                </div>
+                <div class="hidden md:flex">
+                    <a href="https://forms.google.com" target="_blank" class="bg-brand-primary text-white px-5 py-2 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg shadow-blue-500/30">
+                        Daftar Hadir
+                    </a>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="text-gray-600 hover:text-brand-primary focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
             </div>
-            <h1 class="text-2xl font-bold tracking-wider mt-4">REUNI AKBAR</h1>
-            <p class="text-sm text-gray-300 tracking-widest uppercase">IKA SMPN 5 Pangkal Pinang</p>
         </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <a href="#home" class="block py-2 px-4 text-sm hover:bg-gray-50">Beranda</a>
+            <a href="#about" class="block py-2 px-4 text-sm hover:bg-gray-50">Tentang Sekolah</a>
+            <a href="#gallery" class="block py-2 px-4 text-sm hover:bg-gray-50">Galeri</a>
+            <a href="#comments" class="block py-2 px-4 text-sm hover:bg-gray-50">Buku Tamu</a>
+        </div>
+    </nav>
 
-        <div class="glass-panel rounded-2xl p-4 text-center">
-            <p class="text-xs text-accent font-semibold mb-2 uppercase">Menuju Hari H</p>
-            <div class="flex justify-center gap-4 text-center">
-                <div><span id="days" class="text-2xl font-bold">00</span><p class="text-[10px] text-gray-400">Hari</p></div>
-                <div><span id="hours" class="text-2xl font-bold">00</span><p class="text-[10px] text-gray-400">Jam</p></div>
-                <div><span id="minutes" class="text-2xl font-bold">00</span><p class="text-[10px] text-gray-400">Menit</p></div>
+    <section id="home" class="relative pt-24 pb-12 lg:pt-32 lg:pb-24 overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop" class="w-full h-full object-cover opacity-20">
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-50 via-transparent to-transparent"></div>
+        </div>
+        
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-brand-primary font-semibold tracking-wider uppercase text-sm">Official Website</span>
+            <h1 class="mt-4 text-4xl sm:text-6xl font-serif font-bold text-brand-dark mb-6">
+                Reuni Akbar <br> <span class="text-brand-primary">SMP Negeri 5</span> Pangkal Pinang
+            </h1>
+            <p class="max-w-2xl mx-auto text-lg text-gray-600 mb-8">
+                "Kembali pulang, merajut kenangan, menyambung persaudaraan." <br>
+                Bergabunglah bersama kami untuk merayakan nostalgia masa putih biru.
+            </p>
+            <div class="flex justify-center gap-4">
+                <a href="#gallery" class="px-8 py-3 bg-white text-brand-primary border border-brand-primary rounded-full font-semibold hover:bg-gray-50 transition">
+                    Lihat Kenangan
+                </a>
+                <a href="https://forms.google.com" target="_blank" class="px-8 py-3 bg-brand-primary text-white rounded-full font-semibold hover:bg-blue-700 transition shadow-lg">
+                    Registrasi Sekarang
+                </a>
             </div>
         </div>
+    </section>
 
-        <div class="space-y-3">
-            
-            <a href="https://forms.google.com/your-form-link" target="_blank" class="block w-full group relative">
-                <div class="absolute -inset-0.5 bg-gradient-to-r from-accent to-yellow-600 rounded-xl blur opacity-75 group-hover:opacity-100 transition duration-200"></div>
-                <div class="relative bg-gray-900 rounded-xl p-4 flex items-center justify-between border border-accent/30 hover:bg-gray-800 transition">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-clipboard-list text-accent text-xl"></i>
-                        <span class="font-semibold text-white">Daftar Sekarang</span>
-                    </div>
-                    <i class="fas fa-arrow-right text-gray-400 group-hover:translate-x-1 transition"></i>
+    <section id="about" class="py-16 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="relative">
+                    <div class="absolute -inset-4 bg-brand-gold/20 rounded-2xl rotate-3"></div>
+                    <img src="https://images.unsplash.com/photo-1544531696-656f8f53372c?q=80&w=2000&auto=format&fit=crop" class="relative rounded-2xl shadow-xl w-full object-cover h-[400px]">
                 </div>
-            </a>
-
-            <a href="https://docs.google.com/spreadsheets/d/your-sheet-link" target="_blank" class="block glass-panel rounded-xl p-4 hover:bg-white/10 transition group">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-users text-blue-400 text-xl"></i>
-                        <span class="font-medium">Data Alumni Terdaftar</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition"></i>
+                <div>
+                    <h2 class="text-3xl font-serif font-bold text-brand-dark mb-4">Mengenang Masa Sekolah</h2>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        Gedung sekolah mungkin sudah berubah catnya, guru-guru mungkin sudah berganti, namun kenangan saat kita belajar, bermain, dan tertawa di SMPN 5 Pangkal Pinang tidak akan pernah pudar.
+                    </p>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-brand-primary"></i>
+                            <span class="text-gray-700">Temu Kangen Lintas Angkatan</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-brand-primary"></i>
+                            <span class="text-gray-700">Penampilan Seni & Nostalgia</span>
+                        </li>
+                        <li class="flex items-center gap-3">
+                            <i class="fas fa-check-circle text-brand-primary"></i>
+                            <span class="text-gray-700">Donasi untuk Sekolah Tercinta</span>
+                        </li>
+                    </ul>
                 </div>
-            </a>
-
-            <a href="https://drive.google.com/your-drive-link" target="_blank" class="block glass-panel rounded-xl p-4 hover:bg-white/10 transition group">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-camera text-pink-400 text-xl"></i>
-                        <span class="font-medium">Galeri Kenangan</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition"></i>
-                </div>
-            </a>
-
-            <a href="https://maps.google.com/?q=Lokasi+Acara" target="_blank" class="block glass-panel rounded-xl p-4 hover:bg-white/10 transition group">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-map-marker-alt text-red-400 text-xl"></i>
-                        <span class="font-medium">Lokasi Acara</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition"></i>
-                </div>
-            </a>
-            
-             <a href="https://chat.whatsapp.com/your-group-link" target="_blank" class="block glass-panel rounded-xl p-4 hover:bg-white/10 transition group">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        <i class="fab fa-whatsapp text-green-400 text-xl"></i>
-                        <span class="font-medium">Gabung Grup WA</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-500 group-hover:text-white transition"></i>
-                </div>
-            </a>
-
+            </div>
         </div>
+    </section>
 
-        <footer class="text-center mt-8 pb-4">
-            <p class="text-xs text-gray-500">© 2024 IKA SMPN 5 Pangkal Pinang</p>
-            <p class="text-[10px] text-gray-600 mt-1">Dibuat dengan semangat persahabatan</p>
-        </footer>
+    <section id="gallery" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-serif font-bold text-brand-dark">Galeri Nostalgia</h2>
+                <p class="text-gray-500 mt-2">Momen-momen terbaik yang tak terlupakan.</p>
+            </div>
 
-    </div>
+            <div class="columns-1 md:columns-2 lg:columns-3 gap-4 space-y-4">
+                
+                <div class="break-inside-avoid zoom-container rounded-xl overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=1932&auto=format&fit=crop" class="w-full zoom-img">
+                </div>
 
-    <script>
-        // SET TANGGAL REUNI DI SINI (Format: YYYY-MM-DD)
-        const eventDate = new Date("2024-12-31T08:00:00").getTime();
+                <div class="break-inside-avoid zoom-container rounded-xl overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=2070&auto=format&fit=crop" class="w-full zoom-img">
+                </div>
 
-        const timer = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = eventDate - now;
+                <div class="break-inside-avoid zoom-container rounded-xl overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=2070&auto=format&fit=crop" class="w-full zoom-img">
+                </div>
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                <div class="break-inside-avoid zoom-container rounded-xl overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=2132&auto=format&fit=crop" class="w-full zoom-img">
+                </div>
 
-            document.getElementById("days").innerText = days;
-            document.getElementById("hours").innerText = hours;
-            document.getElementById("minutes").innerText = minutes;
+                 <div class="break-inside-avoid zoom-container rounded-xl overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=2070&auto=format&fit=crop" class="w-full zoom-img">
+                </div>
+                
+                 <div class="break-inside-avoid zoom-container rounded-xl overflow-hidden shadow-md">
+                    <img src="https://images.unsplash.com/photo-1564981797816-1043664bf78d?q=80&w=1974&auto=format&fit=crop" class="w-full zoom-img">
+                </div>
 
-            if (distance < 0) {
-                clearInterval(timer);
-                document.getElementById("days").innerText = "00";
-                // Pesan saat acara dimulai
-                alert("Acara Reuni Dimulai!"); 
-            }
-        }, 1000);
-    </script>
+            </div>
+            
+            <div class="text-center mt-10">
+                <a href="#" class="text-brand-primary font-semibold hover:underline">Lihat Semua Foto di Google Drive &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="comments" class="py-16 bg-white border-t">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-serif font-bold text-brand-dark">Buku Tamu Alumni</h2>
+                <p class="text-gray-500 mt-2">Tinggalkan pesan, sapa teman lama, atau konfirmasi kehadiranmu di sini.</p>
+            </div>
+
+            <div class="bg-gray-50 p-6 rounded-2xl border border-gray-200">
+                <div id="disqus_thread"></div>
+            </div>
+            
+            <script>
+                /**
+                * LANGKAH PENTING:
+                * 1. Buka https://disqus.com/admin/create/
+                * 2. Buat akun & pilih "I want to install Disqus on my site"
+                * 3. Buat shortname untuk websitemu (misal: alumni-smpn5)
+                * 4. Ganti 'EXAMPLE' di bawah dengan shortname kamu
+                */
+                var disqus_config = function () {
+                    this.page.url = window.location.href;  
+                    this.page.identifier = window.location.pathname; 
+                };
+                
+                (function() { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://EXAMPLE.disqus.com/embed.js'; // GANTI 'EXAMPLE' DENGAN SHORTNAME DISQUS KAMU
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        </div>
+    </section>
+
+    <footer class="bg-brand-dark text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+            <div>
+                <h3 class="text-xl font-bold mb-4 font-serif">IKA SMPN 5 PKP</h3>
+                <p class="text-gray-400 text-sm">Wadah silaturahmi alumni SMP Negeri 5 Pangkal Pinang. Tetap terhubung, tetap bersaudara.</p>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold mb-4">Tautan Cepat</h3>
+                <ul class="space-y-2 text-gray-400 text-sm">
+                    <li><a href="#home" class="hover:text-white transition">Beranda</a></li>
+                    <li><a href="#gallery" class="hover:text-white transition">Galeri Foto</a></li>
+                    <li><a href="https://forms.google.com" class="hover:text-white transition">Registrasi</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-lg font-bold mb-4">Kontak Panitia</h3>
+                <div class="space-y-2 text-gray-400 text-sm">
+                    <p><i class="fab fa-whatsapp mr-2"></i> +62 812-xxxx-xxxx (Ketua)</p>
+                    <p><i class="far fa-envelope mr-2"></i> reuni@smpn5pkp.com</p>
+                    <p><i class="fab fa-instagram mr-2"></i> @ikasmpn5pkp</p>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-700 mt-12 pt-8 text-center text-gray-500 text-sm">
+            &copy; 2024 Ikatan Alumni SMPN 5 Pangkal Pinang.
+        </div>
+    </footer>
+
 </body>
 </html>
