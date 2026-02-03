@@ -182,7 +182,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzEkdfq2bRD25nl6Z6gfeJklBSyZx4uaUlC0gfVxDJ75jI8XVTvI0EBwdR86Ysl6VwimQ/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwKuK-5BVaumrOW4HF61TiP2oIXxd4FtXBXhxptvjjtrc2jYJFtli14SANloymi0RVVmA/exec"; 
 
         var swiper = new Swiper(".mySwiper", { spaceBetween: 0, effect: "fade", autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
 
@@ -205,46 +205,48 @@
         document.addEventListener('click', function(){ music.play().catch(()=>{}); }, {once: true});
 
        async function loadDinamisAset() {
-            try {
-                // Tampilkan loading teks pada gambar rundown sementara
-                const rdImg = document.getElementById('rundownImg');
-                
-                const res = await fetch(SCRIPT_URL + "?type=aset");
-                const data = await res.json();
-                
-                // 1. Update Rundown
-                if(data.rundown) {
-                    rdImg.src = data.rundown;
-                }
-
-                // 2. Update Galeri
-                if(data.galeri && data.galeri.length > 0) {
-                    const wrapper = document.getElementById('swiperWrapper');
-                    wrapper.innerHTML = ""; // Bersihkan pesan memuat
-                    
-                    data.galeri.forEach((base64Url, i) => {
-                        const slide = document.createElement('div');
-                        slide.className = 'swiper-slide';
-                        slide.innerHTML = `
-                            <img src="${base64Url}" loading="lazy">
-                            <div class="slide-caption">
-                                <h3 class="text-2xl font-bold">Kenangan #${i+1}</h3>
-                            </div>
-                        `;
-                        wrapper.appendChild(slide);
-                    });
-                    
-                    // Update Swiper agar mengenali slide baru
-                    swiper.update();
-                    swiper.autoplay.start();
-                } else {
-                    document.getElementById('swiperWrapper').innerHTML = "<div class='swiper-slide text-white'>Belum ada foto di folder galeri.</div>";
-                }
-            } catch (e) { 
-                console.error("Aset Error:", e);
-                document.getElementById('swiperWrapper').innerHTML = "<div class='swiper-slide text-white'>Gagal memuat aset dari Drive.</div>";
-            }
+    try {
+        // Panggil Apps Script dengan parameter type=aset
+        const res = await fetch(SCRIPT_URL + "?type=aset");
+        const data = await res.json();
+        
+        // 1. Update Gambar Rundown
+        const rdImg = document.getElementById('rundownImg');
+        if(data.rundown) {
+            rdImg.src = data.rundown;
+        } else {
+            rdImg.src = "https://via.placeholder.com/800x600?text=Gambar+Rundown+Tidak+Ditemukan";
         }
+
+        // 2. Update Galeri Swiper
+        const wrapper = document.getElementById('swiperWrapper');
+        if(data.galeri && data.galeri.length > 0) {
+            wrapper.innerHTML = ""; // Hapus loading teks
+            data.galeri.forEach((base64Url, i) => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `
+                    <img src="${base64Url}" loading="lazy">
+                    <div class="slide-caption">
+                        <h3 class="text-2xl font-bold">Kenangan #${i+1}</h3>
+                    </div>
+                `;
+                wrapper.appendChild(slide);
+            });
+            
+            // Re-inisialisasi Swiper agar mendeteksi slide baru
+            if (typeof swiper !== 'undefined') {
+                swiper.update();
+                swiper.autoplay.start();
+            }
+        } else {
+            wrapper.innerHTML = "<div class='swiper-slide text-white'>Tidak ada foto di folder galeri.</div>";
+        }
+    } catch (e) { 
+        console.error("Aset Error:", e);
+        document.getElementById('rundownImg').src = "https://via.placeholder.com/800x600?text=Gagal+Koneksi+ke+Script";
+    }
+}
         async function submitToGoogleSheet(e) {
             e.preventDefault();
             const form = e.target, btn = document.getElementById('submitBtn'), loader = document.getElementById('btnLoader');
