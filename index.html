@@ -32,11 +32,9 @@
     <audio id="bgMusic" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-111718.mp3" type="audio/mpeg">
     </audio>
-    <div id="musicBtn" class="music-control paused" onclick="toggleMusic()"><i id="musicIcon" class="fas fa-play"></i></div>
-
-    <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="#" class="text-xl md:text-2xl font-bold text-gray-800 serif-font">
+    <nav class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center relative">
+        <a href="#" class="text-xl md:text-2xl font-bold text-gray-800 serif-font z-[110]">
             <span class="text-amber-600">IKA</span> SMPN 5 PKP
         </a>
         
@@ -47,16 +45,16 @@
             <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition">DAFTAR</a>
         </div>
 
-        <div id="menuToggle" class="md:hidden text-amber-600 text-2xl cursor-pointer p-2 z-[60]">
+        <button id="menuToggle" class="md:hidden text-amber-600 text-2xl focus:outline-none z-[110] p-2">
             <i class="fas fa-bars"></i>
-        </div>
+        </button>
     </div>
 
-    <div id="mobileMenu" class="hidden fixed inset-0 bg-white z-[55] flex flex-col items-center justify-center space-y-8 text-xl font-bold transition-all duration-300">
+    <div id="mobileMenu" class="fixed inset-0 bg-white translate-x-full transition-transform duration-300 ease-in-out z-[105] flex flex-col items-center justify-center space-y-8 text-xl font-bold">
         <a href="#beranda" class="mobile-link hover:text-amber-600">BERANDA</a>
         <a href="#acara" class="mobile-link hover:text-amber-600">ACARA</a>
         <a href="#galeri" class="mobile-link hover:text-amber-600">GALERI</a>
-        <a href="#registrasi" class="px-8 py-3 bg-amber-600 text-white rounded-full mobile-link">DAFTAR SEKARANG</a>
+        <a href="#registrasi" class="mobile-link px-8 py-3 bg-amber-600 text-white rounded-full shadow-lg">DAFTAR SEKARANG</a>
     </div>
 </nav>
 
@@ -237,34 +235,32 @@
             loadDinamisAset(); 
         };
 
-    // --- LOGIC MOBILE NAVIGATION ---
+   // --- LOGIC MOBILE NAVIGATION (PERBAIKAN) ---
 const menuToggle = document.getElementById('menuToggle');
 const mobileMenu = document.getElementById('mobileMenu');
 const menuIcon = menuToggle.querySelector('i');
 const mobileLinks = document.querySelectorAll('.mobile-link');
 
-// Fungsi Buka/Tutup Menu
-function toggleMenu() {
-    mobileMenu.classList.toggle('hidden');
-    // Ganti ikon bars ke x (tutup) saat menu terbuka
-    if (mobileMenu.classList.contains('hidden')) {
-        menuIcon.classList.replace('fa-times', 'fa-bars');
-        document.body.style.overflow = 'auto'; // Aktifkan scroll
-    } else {
-        menuIcon.classList.replace('fa-bars', 'fa-times');
-        document.body.style.overflow = 'hidden'; // Matikan scroll saat menu buka
-    }
+function openMenu() {
+    mobileMenu.classList.remove('translate-x-full');
+    menuIcon.classList.replace('fa-bars', 'fa-times');
+    document.body.style.overflow = 'hidden'; // Kunci scroll
 }
 
-menuToggle.addEventListener('click', toggleMenu);
+function closeMenu() {
+    mobileMenu.classList.add('translate-x-full');
+    menuIcon.classList.replace('fa-times', 'fa-bars');
+    document.body.style.overflow = 'auto'; // Aktifkan scroll
+}
 
-// Tutup menu otomatis saat salah satu link diklik
+menuToggle.addEventListener('click', () => {
+    const isClosed = mobileMenu.classList.contains('translate-x-full');
+    isClosed ? openMenu() : closeMenu();
+});
+
+// Tutup menu saat link diklik
 mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        mobileMenu.classList.add('hidden');
-        menuIcon.classList.replace('fa-times', 'fa-bars');
-        document.body.style.overflow = 'auto';
-    });
+    link.addEventListener('click', closeMenu);
 });
     </script>
 </body>
