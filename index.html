@@ -35,17 +35,30 @@
     <div id="musicBtn" class="music-control paused" onclick="toggleMusic()"><i id="musicIcon" class="fas fa-play"></i></div>
 
     <nav class="fixed w-full z-50 bg-white/90 backdrop-blur-md shadow-sm">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl md:text-2xl font-bold text-gray-800 serif-font"><span class="text-amber-600">IKA</span> SMPN 5 PKP</a>
-            <div class="hidden md:flex space-x-6 text-sm font-semibold tracking-wide">
-                <a href="#beranda" class="hover:text-amber-600">BERANDA</a>
-                <a href="#acara" class="hover:text-amber-600">ACARA</a>
-                <a href="#galeri" class="hover:text-amber-600">GALERI</a>
-                <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700">DAFTAR</a>
-            </div>
-            <div class="md:hidden text-amber-600 text-xl cursor-pointer"><i class="fas fa-bars"></i></div>
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <a href="#" class="text-xl md:text-2xl font-bold text-gray-800 serif-font">
+            <span class="text-amber-600">IKA</span> SMPN 5 PKP
+        </a>
+        
+        <div class="hidden md:flex space-x-6 text-sm font-semibold tracking-wide">
+            <a href="#beranda" class="hover:text-amber-600 transition">BERANDA</a>
+            <a href="#acara" class="hover:text-amber-600 transition">ACARA</a>
+            <a href="#galeri" class="hover:text-amber-600 transition">GALERI</a>
+            <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition">DAFTAR</a>
         </div>
-    </nav>
+
+        <div id="menuToggle" class="md:hidden text-amber-600 text-2xl cursor-pointer p-2 z-[60]">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+
+    <div id="mobileMenu" class="hidden fixed inset-0 bg-white z-[55] flex flex-col items-center justify-center space-y-8 text-xl font-bold transition-all duration-300">
+        <a href="#beranda" class="mobile-link hover:text-amber-600">BERANDA</a>
+        <a href="#acara" class="mobile-link hover:text-amber-600">ACARA</a>
+        <a href="#galeri" class="mobile-link hover:text-amber-600">GALERI</a>
+        <a href="#registrasi" class="px-8 py-3 bg-amber-600 text-white rounded-full mobile-link">DAFTAR SEKARANG</a>
+    </div>
+</nav>
 
     <section id="beranda" class="hero-bg flex items-center justify-center relative text-white text-center px-4">
         <div class="max-w-4xl z-10 mt-16">
@@ -223,6 +236,36 @@
             loadComments(); 
             loadDinamisAset(); 
         };
+
+    // --- LOGIC MOBILE NAVIGATION ---
+const menuToggle = document.getElementById('menuToggle');
+const mobileMenu = document.getElementById('mobileMenu');
+const menuIcon = menuToggle.querySelector('i');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+// Fungsi Buka/Tutup Menu
+function toggleMenu() {
+    mobileMenu.classList.toggle('hidden');
+    // Ganti ikon bars ke x (tutup) saat menu terbuka
+    if (mobileMenu.classList.contains('hidden')) {
+        menuIcon.classList.replace('fa-times', 'fa-bars');
+        document.body.style.overflow = 'auto'; // Aktifkan scroll
+    } else {
+        menuIcon.classList.replace('fa-bars', 'fa-times');
+        document.body.style.overflow = 'hidden'; // Matikan scroll saat menu buka
+    }
+}
+
+menuToggle.addEventListener('click', toggleMenu);
+
+// Tutup menu otomatis saat salah satu link diklik
+mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        menuIcon.classList.replace('fa-times', 'fa-bars');
+        document.body.style.overflow = 'auto';
+    });
+});
     </script>
 </body>
 </html>
