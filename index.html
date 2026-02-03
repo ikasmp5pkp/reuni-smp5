@@ -10,25 +10,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        body { font-family: 'Lato', sans-serif; scroll-behavior: smooth; }
+        body { font-family: 'Lato', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
         h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
+        
+        /* Efek Transisi Antar Section */
+        section { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        section.visible { opacity: 1; transform: translateY(0); }
+
         .hero-bg { background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop'); background-size: cover; background-position: center; background-attachment: fixed; height: 100vh; }
+        
         .countdown-item { backdrop-filter: blur(5px); background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; transition: transform 0.3s; }
-        .countdown-item:hover { transform: translateY(-5px); }
+        
         .swiper { width: 100%; height: 80vh; }
-        .swiper-slide { text-align: center; background: #000; display: flex; justify-content: center; align-items: center; position: relative; }
-        .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.5s; }
-        .slide-caption { position: absolute; bottom: 40px; left: 40px; color: white; text-align: left; z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); max-width: 80%; }
+        .swiper-slide { background: #000; display: flex; justify-content: center; align-items: center; position: relative; }
+        .swiper-slide img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; }
+        
         .music-control { position: fixed; bottom: 30px; right: 30px; z-index: 50; background: #d97706; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.5); animation: pulse 2s infinite; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(217, 119, 6, 0); } 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } }
-        .music-control.paused { animation: none; background: #4b5563; }
-        .comment-box { max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d97706 #f3f4f6; }
-        .comment-item { border-left: 4px solid #d97706; background: #fff; margin-bottom: 1rem; padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+        /* Menu Mobile Minimalis (Size Setengah Layar) */
+        #mobileMenu {
+            position: fixed; top: 0; right: 0; width: 60%; height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(15px); border-left: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 105; display: flex; flex-direction: column; padding-top: 80px;
+        }
+        #mobileMenu.open { transform: translateX(0); }
+        .mobile-link { padding: 15px 30px; font-size: 1.1rem; font-weight: bold; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
         .loader { border: 3px solid #f3f3f3; border-top: 3px solid #d97706; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+
     <audio id="bgMusic" loop><source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-111718.mp3" type="audio/mpeg"></audio>
     <div id="musicBtn" class="music-control paused" onclick="toggleMusic()"><i id="musicIcon" class="fas fa-play"></i></div>
 
@@ -37,25 +53,30 @@
             <a href="#" class="text-xl font-bold text-gray-800 serif-font">
                 <span class="text-amber-600">IKA</span> SMPN 5 PKP
             </a>
-            <button id="menuToggle" class="md:hidden text-amber-600 text-2xl focus:outline-none p-2 transition-transform active:scale-90">
+            <button id="menuToggle" class="md:hidden text-amber-600 text-2xl focus:outline-none p-2">
                 <i class="fas fa-bars" id="menuIcon"></i>
             </button>
             <div class="hidden md:flex space-x-6 text-sm font-semibold tracking-wide">
                 <a href="#beranda" class="hover:text-amber-600 transition">BERANDA</a>
                 <a href="#acara" class="hover:text-amber-600 transition">ACARA</a>
                 <a href="#galeri" class="hover:text-amber-600 transition">GALERI</a>
-                <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition font-bold">DAFTAR</a>
+                <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full font-bold">DAFTAR</a>
             </div>
         </div>
-        <div id="mobileMenu" class="fixed inset-0 bg-white/95 backdrop-blur-lg opacity-0 pointer-events-none transition-all duration-300 z-[105] flex flex-col items-center justify-center space-y-8 text-2xl font-bold">
-            <a href="#beranda" class="mobile-link text-gray-800 hover:text-amber-600">BERANDA</a>
-            <a href="#acara" class="mobile-link text-gray-800 hover:text-amber-600">ACARA</a>
-            <a href="#galeri" class="mobile-link text-gray-800 hover:text-amber-600">GALERI</a>
-            <a href="#registrasi" class="mobile-link px-10 py-4 bg-amber-600 text-white rounded-full">DAFTAR SEKARANG</a>
+        <div id="mobileMenu">
+            <a href="#beranda" class="mobile-link text-gray-800">BERANDA</a>
+            <a href="#acara" class="mobile-link text-gray-800">ACARA</a>
+            <a href="#galeri" class="mobile-link text-gray-800">GALERI</a>
+            <a href="#registrasi" class="mobile-link text-amber-600">DAFTAR SEKARANG</a>
+            <div class="mt-auto p-8 flex space-x-4">
+                <a href="#"><i class="fab fa-instagram text-xl"></i></a>
+                <a href="#"><i class="fab fa-tiktok text-xl"></i></a>
+                <a href="#"><i class="fab fa-facebook text-xl"></i></a>
+            </div>
         </div>
     </nav>
 
-    <section id="beranda" class="hero-bg flex items-center justify-center relative text-white text-center px-4">
+    <section id="beranda" class="hero-bg flex items-center justify-center relative text-white text-center px-4 visible">
         <div class="max-w-4xl z-10 mt-16">
             <p class="text-lg md:text-xl italic font-light text-amber-200 mb-6">"Tak lekang oleh waktu, tak pupus oleh jarak. Mari kembali pulang."</p>
             <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg serif-font">Reuni Akbar <br> <span class="text-amber-500">SMP Negeri 5</span> <br> Pangkal Pinang</h1>
@@ -65,7 +86,18 @@
                 <div class="countdown-item p-3 w-20 md:w-24"><span id="minutes" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Mnt</span></div>
                 <div class="countdown-item p-3 w-20 md:w-24"><span id="seconds" class="block text-2xl md:text-3xl font-bold text-amber-400">00</span><span class="text-xs uppercase">Dtk</span></div>
             </div>
-            <a href="#registrasi" class="inline-block px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full shadow-lg transition-transform hover:scale-105 active:scale-95">Konfirmasi Kehadiran</a>
+            <a href="#registrasi" class="inline-block px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full shadow-lg">Konfirmasi Kehadiran</a>
+        </div>
+    </section>
+
+    <section id="acara" class="py-20 bg-white">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-8 serif-font">Detail Acara</h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div class="p-6 border rounded-xl shadow-sm bg-gray-50"><i class="far fa-clock text-amber-600 text-3xl mb-3"></i><h3 class="font-bold">Waktu</h3><p class="text-gray-600">Minggu, 24 Maret 2026</p><p class="text-sm text-gray-500">08:00 WIB - Selesai</p></div>
+                <div class="p-6 border rounded-xl shadow-sm bg-gray-50"><i class="fas fa-map-marker-alt text-amber-600 text-3xl mb-3"></i><h3 class="font-bold">Lokasi</h3><p class="text-gray-600">Sekolah SMPN 5</p><p class="text-sm text-gray-500">Pangkal Pinang</p></div>
+                <div class="p-6 border rounded-xl shadow-sm bg-gray-50"><i class="fas fa-tshirt text-amber-600 text-3xl mb-3"></i><h3 class="font-bold">Dresscode</h3><p class="text-gray-600">Putih & Jeans</p><p class="text-sm text-gray-500">Casual & Rapi</p></div>
+            </div>
         </div>
     </section>
 
@@ -90,24 +122,26 @@
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
                 <div class="bg-gray-800 text-white p-8 md:w-1/3 flex flex-col justify-center">
-                    <h3 class="text-2xl font-bold mb-4 text-amber-500 serif-font">Informasi Biaya</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-amber-500 serif-font">Info Biaya</h3>
                     <div class="mb-6">
-                        <p class="text-3xl font-bold text-white">Rp 50.000</p>
-                        <p class="text-sm text-amber-200 mt-1 italic">Mencakup Konsumsi Peserta & Souvenir Kenang-kenangan</p>
+                        <p class="text-3xl font-bold">Rp 50.000</p>
+                        <p class="text-sm text-amber-200 mt-1 italic">Konsumsi & Souvenir Eksklusif</p>
                     </div>
-                    
-                    <h3 class="text-xl font-bold mb-4 text-amber-500 serif-font border-t border-gray-700 pt-6">Pembayaran</h3>
                     <div class="bg-gray-700 p-4 rounded-lg mb-4 border-l-4 border-amber-500">
                         <p class="text-xs text-gray-400 uppercase">Bank BCA</p>
                         <p class="text-xl font-mono font-bold">8535-6131-99</p>
                         <p class="text-sm">A.n : Sri Lestari</p>
                     </div>
-                    <p class="text-xs text-gray-400 italic">* File bukti transfer & selfie maksimal 1 MB.</p>
+                    <div class="mt-6 pt-6 border-t border-gray-700">
+                        <p class="text-xs font-bold text-amber-500 uppercase mb-2">Butuh Bantuan?</p>
+                        <a href="https://wa.me/628123456789" class="text-sm flex items-center mb-2 hover:text-amber-400"><i class="fab fa-whatsapp mr-2"></i> Panitia (Andi)</a>
+                        <p class="text-sm flex items-center"><i class="far fa-envelope mr-2"></i> alumni.smp5pkp@gmail.com</p>
+                    </div>
                 </div>
                 <div class="p-8 md:w-2/3">
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 outline-none"></div>
                             <div><label class="text-xs font-bold uppercase text-gray-500">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50"><option value="L">Pria</option><option value="P">Wanita</option></select></div>
                         </div>
                         <div class="mb-4"><label class="text-xs font-bold uppercase text-gray-500">No. WA</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
@@ -116,12 +150,11 @@
                             <div><label class="text-xs font-bold uppercase text-amber-700">Kelas</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50"></div>
                         </div>
                         <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer</label><input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs">
+                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer & Selfie</label>
+                            <input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs mb-2">
+                            <input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs">
                         </div>
-                        <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold uppercase text-gray-600">Foto Selfie</label><input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs">
-                        </div>
-                        <div class="mb-6"><label class="text-xs font-bold uppercase text-gray-500">Kesan Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 focus:border-amber-500 h-20 text-sm"></textarea></div>
+                        <div class="mb-6"><label class="text-xs font-bold uppercase text-gray-500">Kesan Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 h-20 text-sm"></textarea></div>
                         <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-black transition-colors"><span>Daftar Sekarang</span><div class="loader" id="btnLoader"></div></button>
                     </form>
                 </div>
@@ -129,25 +162,47 @@
         </div>
     </section>
 
-    <section id="ucapan" class="py-20 bg-white border-t">
-        <div class="container mx-auto px-6 max-w-3xl text-center">
-            <h2 class="text-3xl font-bold mb-8 serif-font">Salam & Doa</h2>
-            <div id="commentsContainer" class="comment-box text-left bg-gray-50 p-6 rounded-xl shadow-inner border">
-                <div class="text-center text-gray-400 py-10" id="loadingComments"><div class="loader inline-block"></div><p>Memuat...</p></div>
-            </div>
+    <footer class="bg-gray-900 text-white py-12 text-center">
+        <div class="flex justify-center space-x-6 mb-8">
+            <a href="https://instagram.com" class="text-2xl hover:text-amber-500"><i class="fab fa-instagram"></i></a>
+            <a href="https://tiktok.com" class="text-2xl hover:text-amber-500"><i class="fab fa-tiktok"></i></a>
+            <a href="https://facebook.com" class="text-2xl hover:text-amber-500"><i class="fab fa-facebook-f"></i></a>
         </div>
-    </section>
-
-    <footer class="bg-gray-900 text-white py-10 text-center text-sm text-gray-500">&copy; 2024 Panitia IKA SMPN 5 PKP.</footer>
+        <p class="text-gray-500 text-sm">&copy; 2024 Panitia IKA SMPN 5 PKP. | alumni.smp5pkp@gmail.com</p>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxVsFEfdLn3DT8EJpkwrD2IjujcRy8kQdTIChyuRAzFJzo_YMFz96EFbDdt7g0ErWwoaw/exec"; 
 
+        // --- TRANSISI SMOOTH ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => { if(entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.1 });
+        document.querySelectorAll('section').forEach(s => observer.observe(s));
+
+        // --- LOGIC MOBILE NAV ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = document.getElementById('menuIcon');
+        
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            menuIcon.classList.toggle('fa-bars');
+            menuIcon.classList.toggle('fa-times');
+            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : 'auto';
+        });
+        document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => {
+            mobileMenu.classList.remove('open');
+            menuIcon.classList.replace('fa-times', 'fa-bars');
+            document.body.style.overflow = 'auto';
+        }));
+
+        // --- FUNGSI EXISTING ---
         var swiper = new Swiper(".mySwiper", { spaceBetween: 0, effect: "fade", autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
 
         setInterval(function() {
-            const now = new Date().getTime(), distance = new Date("Mar 24, 2026 08:00:00").getTime() - now;
+            const distance = new Date("Mar 24, 2026 08:00:00").getTime() - new Date().getTime();
             if(document.getElementById("days")){
                 document.getElementById("days").innerText = Math.floor(distance / 864e5).toString().padStart(2,'0');
                 document.getElementById("hours").innerText = Math.floor((distance % 864e5) / 36e5).toString().padStart(2,'0');
@@ -168,34 +223,33 @@
                 const res = await fetch(SCRIPT_URL + "?type=aset");
                 const data = await res.json();
                 if(data.rundown) document.getElementById('rundownImg').src = data.rundown;
-                if(data.galeri && data.galeri.length > 0) {
-                    const wrapper = document.getElementById('swiperWrapper');
-                    wrapper.innerHTML = "";
+                if(data.galeri) {
+                    const wrapper = document.getElementById('swiperWrapper'); wrapper.innerHTML = "";
                     data.galeri.forEach((url, i) => {
-                        wrapper.innerHTML += `<div class="swiper-slide"><img src="${url}" loading="lazy"><div class="slide-caption"><h3 class="text-2xl font-bold">Kenangan #${i+1}</h3></div></div>`;
+                        wrapper.innerHTML += `<div class="swiper-slide"><img src="${url}"><div class="slide-caption"><h3 class="text-2xl font-bold">Kenangan #${i+1}</h3></div></div>`;
                     });
                     swiper.update();
                 }
-            } catch (e) { console.error("Aset Error:", e); }
+            } catch (e) { console.error(e); }
         }
 
         async function submitToGoogleSheet(e) {
             e.preventDefault();
             const form = e.target, btn = document.getElementById('submitBtn'), loader = document.getElementById('btnLoader');
-            const f1 = document.getElementById('fileBukti').files[0], f2 = document.getElementById('fileSelfie').files[0];
-            if (f1.size > 1e6 || f2.size > 1e6) return Swal.fire('Error', 'File maksimal 1MB.', 'warning');
             btn.disabled = true; loader.style.display = "block";
             try {
                 const data = {
                     nama: form['nama'].value, gender: form['gender'].value, whatsapp: form['whatsapp'].value,
-                    email: form['email'].value || 'reuni@mail.com', angkatan: form['angkatan'].value, kelas: form['kelas'].value,
+                    email: form['email'].value || '-', angkatan: form['angkatan'].value, kelas: form['kelas'].value,
                     pekerjaan: form['pekerjaan'].value || '-', pesan: form['pesan'].value,
-                    fileBukti: await toBase64(f1), fileSelfie: await toBase64(f2),
-                    mimeBukti: f1.type, mimeSelfie: f2.type
+                    fileBukti: await toBase64(document.getElementById('fileBukti').files[0]),
+                    fileSelfie: await toBase64(document.getElementById('fileSelfie').files[0]),
+                    mimeBukti: document.getElementById('fileBukti').files[0].type,
+                    mimeSelfie: document.getElementById('fileSelfie').files[0].type
                 };
                 await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
                 Swal.fire('Berhasil!', 'Pendaftaran terkirim.', 'success'); form.reset(); loadComments();
-            } catch (err) { Swal.fire('Gagal', 'Terjadi kesalahan jaringan.', 'error'); } 
+            } catch (err) { Swal.fire('Gagal', 'Cek koneksi internet.', 'error'); } 
             finally { btn.disabled = false; loader.style.display = "none"; }
         }
 
@@ -208,34 +262,10 @@
                 const container = document.getElementById('commentsContainer');
                 container.innerHTML = data.length ? "" : "<p class='text-center'>Belum ada ucapan.</p>";
                 data.forEach(c => {
-                    container.innerHTML += `<div class="comment-item"><h4 class="font-bold">${c.nama} <small class="text-amber-600">(${c.kelas})</small></h4><p class="text-gray-600 italic">"${c.pesan}"</p><span class="text-[10px] text-gray-400">${c.waktu}</span></div>`;
+                    container.innerHTML += `<div class="comment-item"><h4 class="font-bold">${c.nama} <small class="text-amber-600">(${c.kelas})</small></h4><p class="text-gray-600 italic">"${c.pesan}"</p></div>`;
                 });
-            } catch (e) { document.getElementById('loadingComments').innerText = "Gagal memuat."; }
+            } catch (e) { }
         }
-
-        // --- DYNAMIC NAVIGATION LOGIC ---
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const menuIcon = document.getElementById('menuIcon');
-        const mobileLinks = document.querySelectorAll('.mobile-link');
-
-        function toggleMenu() {
-            const isOpen = mobileMenu.classList.contains('opacity-100');
-            if (!isOpen) {
-                mobileMenu.classList.remove('opacity-0', 'pointer-events-none');
-                mobileMenu.classList.add('opacity-100', 'pointer-events-auto');
-                menuIcon.classList.replace('fa-bars', 'fa-times');
-                document.body.style.overflow = 'hidden';
-            } else {
-                mobileMenu.classList.remove('opacity-100', 'pointer-events-auto');
-                mobileMenu.classList.add('opacity-0', 'pointer-events-none');
-                menuIcon.classList.replace('fa-times', 'fa-bars');
-                document.body.style.overflow = 'auto';
-            }
-        }
-
-        menuToggle.addEventListener('click', toggleMenu);
-        mobileLinks.forEach(link => { link.addEventListener('click', toggleMenu); });
 
         window.onload = () => { loadComments(); loadDinamisAset(); };
     </script>
