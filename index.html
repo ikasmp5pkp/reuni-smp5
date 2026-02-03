@@ -29,35 +29,37 @@
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+
     <audio id="bgMusic" loop>
         <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=piano-moment-111718.mp3" type="audio/mpeg">
     </audio>
+    <div id="musicBtn" class="music-control paused" onclick="toggleMusic()"><i id="musicIcon" class="fas fa-play"></i></div>
+
     <nav class="fixed w-full z-[100] bg-white/90 backdrop-blur-md shadow-sm">
-    <div class="container mx-auto px-6 py-4 flex justify-between items-center relative">
-        <a href="#" class="text-xl md:text-2xl font-bold text-gray-800 serif-font z-[110]">
-            <span class="text-amber-600">IKA</span> SMPN 5 PKP
-        </a>
-        
-        <div class="hidden md:flex space-x-6 text-sm font-semibold tracking-wide">
-            <a href="#beranda" class="hover:text-amber-600 transition">BERANDA</a>
-            <a href="#acara" class="hover:text-amber-600 transition">ACARA</a>
-            <a href="#galeri" class="hover:text-amber-600 transition">GALERI</a>
-            <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition">DAFTAR</a>
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center relative">
+            <a href="#" class="text-xl md:text-2xl font-bold text-gray-800 serif-font z-[110]">
+                <span class="text-amber-600">IKA</span> SMPN 5 PKP
+            </a>
+            
+            <div class="hidden md:flex space-x-6 text-sm font-semibold tracking-wide">
+                <a href="#beranda" class="hover:text-amber-600 transition">BERANDA</a>
+                <a href="#acara" class="hover:text-amber-600 transition">ACARA</a>
+                <a href="#galeri" class="hover:text-amber-600 transition">GALERI</a>
+                <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition font-bold">DAFTAR</a>
+            </div>
+
+            <button id="menuToggle" class="md:hidden text-amber-600 text-2xl focus:outline-none z-[110] p-2">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
 
-        <button id="menuToggle" class="md:hidden text-amber-600 text-2xl focus:outline-none z-[110] p-2">
-            <i class="fas fa-bars"></i>
-        </button>
-    </div>
-
-    <div id="mobileMenu" class="fixed inset-0 bg-white translate-x-full transition-transform duration-300 ease-in-out z-[105] flex flex-col items-center justify-center space-y-8 text-xl font-bold">
-        <a href="#beranda" class="mobile-link hover:text-amber-600">BERANDA</a>
-        <a href="#acara" class="mobile-link hover:text-amber-600">ACARA</a>
-        <a href="#galeri" class="mobile-link hover:text-amber-600">GALERI</a>
-        <a href="#registrasi" class="mobile-link px-8 py-3 bg-amber-600 text-white rounded-full shadow-lg">DAFTAR SEKARANG</a>
-    </div>
-</nav>
-
+        <div id="mobileMenu" class="fixed inset-0 bg-white translate-x-full transition-transform duration-300 ease-in-out z-[105] flex flex-col items-center justify-center space-y-8 text-xl font-bold shadow-2xl">
+            <a href="#beranda" class="mobile-link hover:text-amber-600 transition">BERANDA</a>
+            <a href="#acara" class="mobile-link hover:text-amber-600 transition">ACARA</a>
+            <a href="#galeri" class="mobile-link hover:text-amber-600 transition">GALERI</a>
+            <a href="#registrasi" class="mobile-link px-8 py-3 bg-amber-600 text-white rounded-full shadow-lg active:scale-95 transition-transform">DAFTAR SEKARANG</a>
+        </div>
+    </nav>
     <section id="beranda" class="hero-bg flex items-center justify-center relative text-white text-center px-4">
         <div class="max-w-4xl z-10 mt-16">
             <p class="text-lg md:text-xl italic font-light text-amber-200 mb-6">"Tak lekang oleh waktu, tak pupus oleh jarak. Mari kembali pulang."</p>
@@ -68,7 +70,7 @@
                 <div class="countdown-item p-3 w-20 md:w-24"><span id="minutes" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Mnt</span></div>
                 <div class="countdown-item p-3 w-20 md:w-24"><span id="seconds" class="block text-2xl md:text-3xl font-bold text-amber-400">00</span><span class="text-xs uppercase">Dtk</span></div>
             </div>
-            <a href="#registrasi" class="inline-block px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full shadow-lg">Konfirmasi Kehadiran</a>
+            <a href="#registrasi" class="inline-block px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full shadow-lg transition-all transform hover:scale-105 active:scale-95">Konfirmasi Kehadiran</a>
         </div>
     </section>
 
@@ -119,26 +121,26 @@
                     <h2 class="text-2xl font-bold mb-6 serif-font">Formulir Kehadiran</h2>
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold">Nama Lengkap</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none"></div>
-                            <div><label class="text-xs font-bold">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama Lengkap</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div>
                         </div>
-                        <div class="mb-4"><label class="text-xs font-bold">No. WA</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
+                        <div class="mb-4"><label class="text-xs font-bold uppercase text-gray-500">No. WA</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold text-amber-700">Tahun Angkatan</label><input name="angkatan" required class="w-full p-2 border rounded bg-gray-50" type="number"></div>
-                            <div><label class="text-xs font-bold text-amber-700">Kelas Terakhir</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50"></div>
+                            <div><label class="text-xs font-bold uppercase text-amber-700">Tahun Angkatan</label><input name="angkatan" required class="w-full p-2 border rounded bg-gray-50" type="number" placeholder="Contoh: 2005"></div>
+                            <div><label class="text-xs font-bold uppercase text-amber-700">Kelas Terakhir</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50" placeholder="Contoh: 3A"></div>
                         </div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold">Email</label><input name="email" required class="w-full p-2 border rounded bg-gray-50" type="email"></div>
-                            <div><label class="text-xs font-bold">Pekerjaan</label><input name="pekerjaan" required class="w-full p-2 border rounded bg-gray-50"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Email</label><input name="email" required class="w-full p-2 border rounded bg-gray-50" type="email"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Pekerjaan</label><input name="pekerjaan" required class="w-full p-2 border rounded bg-gray-50"></div>
                         </div>
                         <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold">Bukti Transfer (Max 1MB)</label><input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs">
+                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer (Max 1MB)</label><input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs">
                         </div>
                         <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold">Foto Selfie (Max 1MB)</label><input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs">
+                            <label class="text-xs font-bold uppercase text-gray-600">Foto Selfie (Max 1MB)</label><input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs">
                         </div>
-                        <div class="mb-6"><label class="text-xs font-bold">Kesan / Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 focus:border-amber-500 h-20 text-sm"></textarea></div>
-                        <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2"><span>Kirim Pendaftaran</span><div class="loader" id="btnLoader"></div></button>
+                        <div class="mb-6"><label class="text-xs font-bold uppercase text-gray-500">Kesan / Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 focus:border-amber-500 h-20 text-sm"></textarea></div>
+                        <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-black transition-colors"><span>Kirim Pendaftaran</span><div class="loader" id="btnLoader"></div></button>
                     </form>
                 </div>
             </div>
@@ -229,39 +231,38 @@
             } catch (e) { document.getElementById('loadingComments').innerText = "Gagal memuat."; }
         }
 
-        // --- PEMANGGILAN FUNGSI SAAT START ---
+        // --- MOBILE NAV LOGIC ---
+        const menuToggle = document.getElementById('menuToggle');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuIcon = menuToggle.querySelector('i');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function openMenu() {
+            mobileMenu.classList.remove('translate-x-full');
+            menuIcon.classList.replace('fa-bars', 'fa-times');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMenu() {
+            mobileMenu.classList.add('translate-x-full');
+            menuIcon.classList.replace('fa-times', 'fa-bars');
+            document.body.style.overflow = 'auto';
+        }
+
+        menuToggle.addEventListener('click', () => {
+            const isClosed = mobileMenu.classList.contains('translate-x-full');
+            isClosed ? openMenu() : closeMenu();
+        });
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        // --- START FUNCTIONS ---
         window.onload = () => { 
             loadComments(); 
             loadDinamisAset(); 
         };
-
-   // --- LOGIC MOBILE NAVIGATION (PERBAIKAN) ---
-const menuToggle = document.getElementById('menuToggle');
-const mobileMenu = document.getElementById('mobileMenu');
-const menuIcon = menuToggle.querySelector('i');
-const mobileLinks = document.querySelectorAll('.mobile-link');
-
-function openMenu() {
-    mobileMenu.classList.remove('translate-x-full');
-    menuIcon.classList.replace('fa-bars', 'fa-times');
-    document.body.style.overflow = 'hidden'; // Kunci scroll
-}
-
-function closeMenu() {
-    mobileMenu.classList.add('translate-x-full');
-    menuIcon.classList.replace('fa-times', 'fa-bars');
-    document.body.style.overflow = 'auto'; // Aktifkan scroll
-}
-
-menuToggle.addEventListener('click', () => {
-    const isClosed = mobileMenu.classList.contains('translate-x-full');
-    isClosed ? openMenu() : closeMenu();
-});
-
-// Tutup menu saat link diklik
-mobileLinks.forEach(link => {
-    link.addEventListener('click', closeMenu);
-});
     </script>
 </body>
 </html>
