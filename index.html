@@ -4,77 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reuni Akbar IKA SMPN 5 Pangkal Pinang</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <style>
         body { font-family: 'Lato', sans-serif; scroll-behavior: smooth; }
         h1, h2, h3, .serif-font { font-family: 'Playfair Display', serif; }
-
         .hero-bg {
             background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            height: 100vh;
+            background-size: cover; background-position: center; background-attachment: fixed; height: 100vh;
         }
-
-        .countdown-item {
-            backdrop-filter: blur(5px);
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 10px;
-            transition: transform 0.3s;
-        }
+        .countdown-item { backdrop-filter: blur(5px); background: rgba(255, 255, 255, 0.15); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; transition: transform 0.3s; }
         .countdown-item:hover { transform: translateY(-5px); }
-
         .swiper { width: 100%; height: 80vh; }
         .swiper-slide { text-align: center; background: #000; display: flex; justify-content: center; align-items: center; position: relative; }
         .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: opacity 0.5s; }
-        .swiper-slide:hover img { opacity: 1; }
         .slide-caption { position: absolute; bottom: 40px; left: 40px; color: white; text-align: left; z-index: 10; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); max-width: 80%; }
-
-        .music-control {
-            position: fixed; bottom: 30px; right: 30px; z-index: 50;
-            background: #d97706; color: white; width: 50px; height: 50px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            cursor: pointer; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.5);
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); }
-            70% { box-shadow: 0 0 0 15px rgba(217, 119, 6, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); }
-        }
+        .music-control { position: fixed; bottom: 30px; right: 30px; z-index: 50; background: #d97706; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.5); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.7); } 70% { box-shadow: 0 0 0 15px rgba(217, 119, 6, 0); } 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } }
         .music-control.paused { animation: none; background: #4b5563; }
-
-        /* Comment Box Style */
-        .comment-box {
-            max-height: 400px;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: #d97706 #f3f4f6;
-        }
-        .comment-item {
-            border-left: 4px solid #d97706;
-            background: #fff;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: 0 0.5rem 0.5rem 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-        .loader {
-            border: 3px solid #f3f3f3; border-top: 3px solid #d97706; border-radius: 50%;
-            width: 20px; height: 20px; animation: spin 1s linear infinite; display: none;
-        }
+        .comment-box { max-height: 400px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d97706 #f3f4f6; }
+        .comment-item { border-left: 4px solid #d97706; background: #fff; margin-bottom: 1rem; padding: 1rem; border-radius: 0 0.5rem 0.5rem 0; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .loader { border: 3px solid #f3f3f3; border-top: 3px solid #d97706; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: none; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
@@ -98,41 +52,21 @@
                 <a href="#galeri" class="hover:text-amber-600 transition">GALERI</a>
                 <a href="#registrasi" class="px-5 py-2 bg-amber-600 text-white rounded-full hover:bg-amber-700 transition">DAFTAR</a>
             </div>
-            <div class="md:hidden text-amber-600 text-xl cursor-pointer">
-                <i class="fas fa-bars"></i>
-            </div>
+            <div class="md:hidden text-amber-600 text-xl cursor-pointer"><i class="fas fa-bars"></i></div>
         </div>
     </nav>
 
     <section id="beranda" class="hero-bg flex items-center justify-center relative text-white text-center px-4">
         <div class="max-w-4xl z-10 animate-fade-in-up mt-16">
-            <p class="text-lg md:text-xl italic font-light text-amber-200 mb-6">
-                "Tak lekang oleh waktu, tak pupus oleh jarak. Mari kembali pulang."
-            </p>
-            <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg leading-tight serif-font">
-                Reuni Akbar <br> 
-                <span class="text-amber-500">SMP Negeri 5</span> <br> 
-                Pangkal Pinang
-            </h1>
-            
+            <p class="text-lg md:text-xl italic font-light text-amber-200 mb-6">"Tak lekang oleh waktu, tak pupus oleh jarak. Mari kembali pulang."</p>
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg leading-tight serif-font">Reuni Akbar <br> <span class="text-amber-500">SMP Negeri 5</span> <br> Pangkal Pinang</h1>
             <div class="flex flex-wrap justify-center gap-4 md:gap-6 mb-10 mt-8" id="countdown">
-                <div class="countdown-item p-3 w-20 md:w-24">
-                    <span id="days" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Hari</span>
-                </div>
-                <div class="countdown-item p-3 w-20 md:w-24">
-                    <span id="hours" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Jam</span>
-                </div>
-                <div class="countdown-item p-3 w-20 md:w-24">
-                    <span id="minutes" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Mnt</span>
-                </div>
-                <div class="countdown-item p-3 w-20 md:w-24">
-                    <span id="seconds" class="block text-2xl md:text-3xl font-bold text-amber-400">00</span><span class="text-xs uppercase">Dtk</span>
-                </div>
+                <div class="countdown-item p-3 w-20 md:w-24"><span id="days" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Hari</span></div>
+                <div class="countdown-item p-3 w-20 md:w-24"><span id="hours" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Jam</span></div>
+                <div class="countdown-item p-3 w-20 md:w-24"><span id="minutes" class="block text-2xl md:text-3xl font-bold">00</span><span class="text-xs uppercase">Mnt</span></div>
+                <div class="countdown-item p-3 w-20 md:w-24"><span id="seconds" class="block text-2xl md:text-3xl font-bold text-amber-400">00</span><span class="text-xs uppercase">Dtk</span></div>
             </div>
-
-            <a href="#registrasi" class="inline-block px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full transition shadow-lg">
-                Konfirmasi Kehadiran
-            </a>
+            <a href="#registrasi" class="inline-block px-8 py-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-full transition shadow-lg">Konfirmasi Kehadiran</a>
         </div>
     </section>
 
@@ -166,14 +100,10 @@
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-gray-800 serif-font">Rundown & Denah</h2>
-                <p class="text-gray-500 mt-2">Susunan kegiatan yang telah kami persiapkan.</p>
+                <p class="text-gray-500 mt-2">Susunan kegiatan dinamis dari Drive.</p>
             </div>
-            
             <div class="max-w-4xl mx-auto bg-white p-4 rounded-xl shadow text-center">
-                <img src="https://via.placeholder.com/800x600?text=Upload+Gambar+Rundown+dan+Denah+Disini" 
-                     alt="Rundown Acara" 
-                     class="w-full h-auto rounded-lg hover:opacity-95 transition">
-                <p class="text-sm text-gray-500 mt-4 italic">*Gambar rundown acara</p>
+                <img id="rundownImg" src="https://via.placeholder.com/800x600?text=Memuat+Rundown+dari+Drive..." alt="Rundown Acara" class="w-full h-auto rounded-lg shadow-sm">
             </div>
         </div>
     </section>
@@ -181,13 +111,11 @@
     <section id="galeri" class="py-10 bg-gray-900">
         <div class="container mx-auto px-6 mb-8 text-center">
             <h2 class="text-3xl font-bold text-white serif-font">Lorong Waktu</h2>
-            <p class="text-gray-400">Geser untuk melihat kenangan.</p>
+            <p class="text-gray-400">Koleksi foto dinamis dari folder Google Drive.</p>
         </div>
         <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=1920&fit=crop"><div class="slide-caption"><h3 class="text-2xl font-bold">Masa Putih Biru</h3></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1511632765486-a01980e01a18?q=80&w=1920&fit=crop"><div class="slide-caption"><h3 class="text-2xl font-bold">Sahabat Seperjuangan</h3></div></div>
-                <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=1920&fit=crop"><div class="slide-caption"><h3 class="text-2xl font-bold">Guru Pahlawan Kita</h3></div></div>
+            <div class="swiper-wrapper" id="swiperWrapper">
+                <div class="swiper-slide text-white">Memuat Foto Kenangan...</div>
             </div>
             <div class="swiper-button-next text-amber-500"></div>
             <div class="swiper-button-prev text-amber-500"></div>
@@ -198,87 +126,43 @@
     <section id="registrasi" class="py-20 bg-amber-50">
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="bg-white rounded-3xl shadow-xl overflow-hidden flex flex-col md:flex-row">
-                
                 <div class="bg-gray-800 text-white p-8 md:w-1/3 flex flex-col justify-center">
                     <h3 class="text-2xl font-bold serif-font mb-6 text-amber-500">Info Pembayaran</h3>
-                    <p class="mb-4 text-sm text-gray-300">Silakan transfer biaya kontribusi sebesar <strong>Rp 50.000</strong> ke rekening panitia:</p>
-                    
+                    <p class="mb-4 text-sm text-gray-300">Biaya kontribusi <strong>Rp 50.000</strong> ke rekening panitia:</p>
                     <div class="bg-gray-700 p-4 rounded-lg mb-6 border-l-4 border-amber-500">
                         <p class="text-xs text-gray-400 uppercase tracking-wide">Bank BCA</p>
-                        <p class="text-xl font-mono font-bold my-1 select-all">8535-6131-99</p>
+                        <p class="text-xl font-mono font-bold my-1">8535-6131-99</p>
                         <p class="text-sm font-semibold">A.n : Sri Lestari</p>
                     </div>
-                    
-                    <div class="text-xs text-gray-400">
-                        <i class="fas fa-info-circle mr-1"></i> Mohon simpan bukti transfer (struk/screenshot) untuk diupload.
-                    </div>
+                    <p class="text-xs text-gray-400"><i class="fas fa-info-circle mr-1"></i> File Maksimal 1 MB (JPG/PNG).</p>
                 </div>
 
                 <div class="p-8 md:w-2/3">
                     <h2 class="text-2xl font-bold text-gray-800 serif-font mb-6">Formulir Kehadiran</h2>
-                    
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="text-xs font-bold text-gray-600">Nama Lengkap</label>
-                                <input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none" type="text" placeholder="Nama Lengkap">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-600">Gender</label>
-                                <select name="gender" required class="w-full p-2 border rounded bg-gray-50 outline-none">
-                                    <option value="L">Laki-laki</option>
-                                    <option value="P">Perempuan</option>
-                                </select>
-                            </div>
+                            <div><label class="text-xs font-bold">Nama Lengkap</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none" type="text"></div>
+                            <div><label class="text-xs font-bold">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50 outline-none"><option value="L">Laki-laki</option><option value="P">Perempuan</option></select></div>
                         </div>
-
-                        <div class="mb-4">
-                            <label class="text-xs font-bold text-gray-600">No. WA / HP</label>
-                            <input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel" placeholder="08xxx">
-                        </div>
-
+                        <div class="mb-4"><label class="text-xs font-bold">No. WA (08xxx)</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="text-xs font-bold text-gray-600">Tahun Angkatan (Lulus)</label>
-                                <input name="angkatan" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="number" placeholder="Contoh: 1998" min="1950">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-600">Kelas Terakhir</label>
-                                <input name="kelas" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text" placeholder="Contoh: 3C / 3-1">
-                            </div>
+                            <div><label class="text-xs font-bold text-amber-700">Tahun Angkatan</label><input name="angkatan" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="number" placeholder="19xx"></div>
+                            <div><label class="text-xs font-bold text-amber-700">Kelas Terakhir</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text" placeholder="3A"></div>
                         </div>
-
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="text-xs font-bold text-gray-600">Email Aktif</label>
-                                <input name="email" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="email" placeholder="nama@email.com">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-600">Pekerjaan</label>
-                                <input name="pekerjaan" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text">
-                            </div>
-                        </div>
-
-                        <div class="mb-4 bg-gray-50 p-3 rounded border border-dashed border-gray-300">
-                            <label class="text-xs font-bold text-gray-700 block mb-1">Bukti Transfer (BCA - Sri Lestari)</label>
-                            <p class="text-[10px] text-red-500 mb-2 italic">*Format gambar, Ukuran Maksimal 1 MB</p>
-                            <input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs p-1">
+                            <div><label class="text-xs font-bold">Email</label><input name="email" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="email"></div>
+                            <div><label class="text-xs font-bold">Pekerjaan</label><input name="pekerjaan" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text"></div>
                         </div>
                         <div class="mb-4 bg-gray-50 p-3 rounded border border-dashed border-gray-300">
-                            <label class="text-xs font-bold text-gray-700 block mb-1">Foto Selfie (Wajah Tampak Depan)</label>
-                            <p class="text-[10px] text-red-500 mb-2 italic">*Wajib tampak depan jelas, Ukuran Maksimal 1 MB</p>
-                            <input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs p-1">
+                            <label class="text-xs font-bold text-gray-700">Bukti Transfer (Max 1MB)</label>
+                            <input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs">
                         </div>
-
-                        <div class="mb-6">
-                            <label class="text-xs font-bold text-gray-600">Kesan / Pesan (Tampil di Website)</label>
-                            <textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 focus:border-amber-500 outline-none h-20 placeholder-gray-400 text-sm" placeholder="Tuliskan harapan atau kenangan singkat..."></textarea>
+                        <div class="mb-4 bg-gray-50 p-3 rounded border border-dashed border-gray-300">
+                            <label class="text-xs font-bold text-gray-700">Foto Selfie (Tampak Depan - Max 1MB)</label>
+                            <input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs">
                         </div>
-
-                        <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-900 transition flex justify-center items-center gap-2">
-                            <span>Kirim Pendaftaran</span>
-                            <div class="loader" id="btnLoader" style="border-color: #fff; border-top-color: transparent;"></div>
-                        </button>
+                        <div class="mb-6"><label class="text-xs font-bold">Kesan / Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 focus:border-amber-500 outline-none h-20 text-sm"></textarea></div>
+                        <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg hover:bg-gray-900 transition flex justify-center items-center gap-2"><span>Kirim Pendaftaran</span><div class="loader" id="btnLoader"></div></button>
                     </form>
                 </div>
             </div>
@@ -288,168 +172,93 @@
     <section id="ucapan" class="py-20 bg-white border-t border-gray-100">
         <div class="container mx-auto px-6 max-w-3xl text-center">
             <h2 class="text-3xl font-bold text-gray-800 serif-font mb-2">Kirim Salam & Doa</h2>
-            <p class="text-gray-500 mb-8">Pesan dari teman-teman yang sudah mendaftar.</p>
-            
             <div id="commentsContainer" class="comment-box text-left bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-200">
-                <div class="text-center text-gray-400 py-10" id="loadingComments">
-                    <div class="loader inline-block mb-2" style="display:inline-block; border-color: #d97706; border-top-color: transparent;"></div>
-                    <p>Memuat pesan...</p>
-                </div>
+                <div class="text-center text-gray-400 py-10" id="loadingComments"><div class="loader inline-block mb-2"></div><p>Memuat pesan...</p></div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-white py-10 border-t border-gray-800 text-center">
-        <h4 class="text-2xl font-bold serif-font mb-4">IKA SMPN 5 Pangkal Pinang</h4>
-        <p class="text-gray-500 text-sm">&copy; 2024 Panitia Reuni Akbar.</p>
-    </footer>
+    <footer class="bg-gray-900 text-white py-10 text-center"><p class="text-gray-500 text-sm">&copy; 2024 Panitia Reuni Akbar IKA SMPN 5 PKP.</p></footer>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-
     <script>
-        // --- 1. SETTING GOOGLE SCRIPT (WAJIB DIISI) ---
-        // PASTIKAN ANDA MEMPERBARUI GOOGLE APPS SCRIPT JUGA (LIHAT DI BAWAH)
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyquAixsJXqfR_DrQFW1ta32-kcxiemRc4ToXN47i9a1PalrDq_AvJWE7tPihAuNbBv8g/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbynvuzZ8Bq96uqnHTmAI-AcnM-VQ6py_5R9VHkJWvhYMi2eunHXdjAFRrwN_r5o1xAYtw/exec"; 
 
-        // --- 2. LOGIC GALERI ---
-        var swiper = new Swiper(".mySwiper", {
-            spaceBetween: 0, centeredSlides: true, effect: "fade",
-            autoplay: { delay: 4000, disableOnInteraction: false },
-            pagination: { el: ".swiper-pagination", clickable: true },
-            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-        });
+        var swiper = new Swiper(".mySwiper", { spaceBetween: 0, effect: "fade", autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
 
-        // --- 3. LOGIC COUNTDOWN ---
         const countDownDate = new Date("Mar 24, 2026 08:00:00").getTime();
-        const x = setInterval(function() {
+        setInterval(function() {
             const now = new Date().getTime(), distance = countDownDate - now;
-            if(document.getElementById("days")) {
-                document.getElementById("days").innerText = Math.floor(distance / (864e5)).toString().padStart(2,'0');
-                document.getElementById("hours").innerText = Math.floor((distance % (864e5)) / (36e5)).toString().padStart(2,'0');
-                document.getElementById("minutes").innerText = Math.floor((distance % (36e5)) / (6e4)).toString().padStart(2,'0');
-                document.getElementById("seconds").innerText = Math.floor((distance % (6e4)) / 1e3).toString().padStart(2,'0');
+            if(document.getElementById("days")){
+                document.getElementById("days").innerText = Math.floor(distance / 864e5).toString().padStart(2,'0');
+                document.getElementById("hours").innerText = Math.floor((distance % 864e5) / 36e5).toString().padStart(2,'0');
+                document.getElementById("minutes").innerText = Math.floor((distance % 36e5) / 6e4).toString().padStart(2,'0');
+                document.getElementById("seconds").innerText = Math.floor((distance % 6e4) / 1e3).toString().padStart(2,'0');
             }
-            if (distance < 0) { clearInterval(x); document.getElementById("countdown").innerHTML = "<div class='text-white font-bold text-xl'>ACARA BERLANGSUNG!</div>"; }
         }, 1000);
 
-        // --- 4. LOGIC MUSIK (INTERACTION FIRST) ---
         const music = document.getElementById("bgMusic");
-        const musicBtn = document.getElementById("musicBtn");
-        const musicIcon = document.getElementById("musicIcon");
-        let isPlaying = false;
-
-        function toggleMusic() {
-            if (isPlaying) { music.pause(); musicBtn.classList.add("paused"); musicIcon.classList.replace("fa-pause", "fa-play"); isPlaying = false; } 
-            else { music.play(); musicBtn.classList.remove("paused"); musicIcon.classList.replace("fa-play", "fa-pause"); isPlaying = true; }
+        function toggleMusic() { 
+            if (music.paused) { music.play(); document.getElementById("musicIcon").classList.replace("fa-play", "fa-pause"); } 
+            else { music.pause(); document.getElementById("musicIcon").classList.replace("fa-pause", "fa-play"); }
         }
-        function startMusicFirst() {
-            music.play().then(() => { musicBtn.classList.remove("paused"); musicIcon.classList.replace("fa-play", "fa-pause"); isPlaying = true; 
-            document.removeEventListener('click', startMusicFirst); document.removeEventListener('scroll', startMusicFirst); }).catch(()=>{});
-        }
-        document.addEventListener('click', startMusicFirst); document.addEventListener('scroll', startMusicFirst);
+        document.addEventListener('click', function(){ music.play().catch(()=>{}); }, {once: true});
 
-        // --- 5. LOGIC FORM SUBMIT (DENGAN VALIDASI) ---
+        async function loadDinamisAset() {
+            try {
+                const res = await fetch(SCRIPT_URL + "?type=aset");
+                const data = await res.json();
+                if(data.rundown) document.getElementById('rundownImg').src = data.rundown;
+                if(data.galeri && data.galeri.length > 0) {
+                    const wrapper = document.getElementById('swiperWrapper');
+                    wrapper.innerHTML = "";
+                    data.galeri.forEach((url, i) => {
+                        wrapper.innerHTML += `<div class="swiper-slide"><img src="${url}" loading="lazy"><div class="slide-caption"><h3 class="text-2xl font-bold">Kenangan #${i+1}</h3></div></div>`;
+                    });
+                    swiper.update();
+                }
+            } catch (e) { console.error("Aset Error:", e); }
+        }
+
         async function submitToGoogleSheet(e) {
             e.preventDefault();
-            if(SCRIPT_URL.includes("URL_GOOGLE_SCRIPT")) { Swal.fire('Error', 'Admin belum update URL Script', 'error'); return; }
+            const form = e.target, btn = document.getElementById('submitBtn'), loader = document.getElementById('btnLoader');
+            const fileBukti = document.getElementById('fileBukti').files[0], fileSelfie = document.getElementById('fileSelfie').files[0];
+            const email = form['email'].value, emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            const submitBtn = document.getElementById('submitBtn');
-            const btnLoader = document.getElementById('btnLoader');
-            const form = document.forms['reuniForm'];
-            const fileBukti = document.getElementById('fileBukti').files[0];
-            const fileSelfie = document.getElementById('fileSelfie').files[0];
+            if (!emailPattern.test(email)) return Swal.fire('Email Error', 'Format email salah.', 'warning');
+            if (fileBukti.size > 1e6 || fileSelfie.size > 1e6) return Swal.fire('Size Error', 'File max 1MB.', 'warning');
 
-            // 1. Validasi Email (Regex)
-            const email = form['email'].value;
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(email)) {
-                Swal.fire('Email Tidak Valid', 'Mohon masukkan alamat email yang benar (contoh: nama@gmail.com).', 'warning');
-                return;
-            }
-
-            // 2. Validasi Ukuran File (Maksimal 1MB)
-            const maxFileSize = 1024 * 1024; // 1 MB dalam bytes
-            if (fileBukti.size > maxFileSize) {
-                Swal.fire('Bukti Transfer Terlalu Besar', 'Maksimal ukuran file Bukti Transfer adalah 1 MB.', 'warning'); 
-                return;
-            }
-            if (fileSelfie.size > maxFileSize) {
-                Swal.fire('Foto Selfie Terlalu Besar', 'Maksimal ukuran file Selfie adalah 1 MB.', 'warning'); 
-                return;
-            }
-
-            submitBtn.disabled = true; 
-            submitBtn.querySelector('span').innerText = "Mengirim..."; 
-            btnLoader.style.display = "block";
-
+            btn.disabled = true; loader.style.display = "block";
             try {
-                const buktiBase64 = await toBase64(fileBukti);
-                const selfieBase64 = await toBase64(fileSelfie);
-                const dataKirim = {
-                    nama: form['nama'].value,
-                    gender: form['gender'].value,
-                    whatsapp: form['whatsapp'].value,
-                    email: form['email'].value,
-                    angkatan: form['angkatan'].value, // Data Baru
-                    kelas: form['kelas'].value,       // Data Baru
-                    pekerjaan: form['pekerjaan'].value,
-                    pesan: form['pesan'].value,
-                    fileBukti: buktiBase64,
-                    fileSelfie: selfieBase64,
-                    mimeBukti: fileBukti.type,
-                    mimeSelfie: fileSelfie.type
+                const data = {
+                    nama: form['nama'].value, gender: form['gender'].value, whatsapp: form['whatsapp'].value,
+                    email: form['email'].value, angkatan: form['angkatan'].value, kelas: form['kelas'].value,
+                    pekerjaan: form['pekerjaan'].value, pesan: form['pesan'].value,
+                    fileBukti: await toBase64(fileBukti), fileSelfie: await toBase64(fileSelfie),
+                    mimeBukti: fileBukti.type, mimeSelfie: fileSelfie.type
                 };
-
-                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(dataKirim) });
-
-                Swal.fire({ title: 'Berhasil!', text: 'Pendaftaran diterima. Pesan Anda muncul di bawah.', icon: 'success' });
-                form.reset();
-                loadComments(); 
-
-            } catch (error) {
-                console.error(error); Swal.fire('Gagal', 'Terjadi kesalahan jaringan.', 'error');
-            } finally {
-                submitBtn.disabled = false; submitBtn.querySelector('span').innerText = "Kirim Pendaftaran"; btnLoader.style.display = "none";
-            }
+                await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
+                Swal.fire('Berhasil!', 'Data tersimpan.', 'success'); form.reset(); loadComments();
+            } catch (err) { Swal.fire('Gagal', 'Error Jaringan.', 'error'); } 
+            finally { btn.disabled = false; loader.style.display = "none"; }
         }
 
-        const toBase64 = file => new Promise((resolve, reject) => {
-            const reader = new FileReader(); reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result.split(',')[1]); reader.onerror = error => reject(error);
-        });
+        const toBase64 = f => new Promise((res, rej) => { const r = new FileReader(); r.readAsDataURL(f); r.onload = () => res(r.result.split(',')[1]); r.onerror = e => rej(e); });
 
-        // --- 6. LOGIC LOAD KOMENTAR ---
         async function loadComments() {
-            if(SCRIPT_URL.includes("URL_GOOGLE_SCRIPT")) return;
-            
-            const container = document.getElementById('commentsContainer');
             try {
-                const response = await fetch(SCRIPT_URL);
-                const comments = await response.json();
-                
-                container.innerHTML = ""; 
-                if(comments.length === 0) {
-                    container.innerHTML = "<p class='text-center text-gray-400'>Belum ada pesan. Jadilah yang pertama!</p>";
-                } else {
-                    comments.forEach(c => {
-                        const html = `
-                        <div class="comment-item">
-                            <div class="flex justify-between items-start mb-1">
-                                <div><h4 class="font-bold text-gray-800">${c.nama} <span class="text-amber-600 text-xs font-normal">(${c.kelas})</span></h4></div>
-                                <span class="text-xs text-gray-400">${c.waktu}</span>
-                            </div>
-                            <p class="text-gray-600 text-sm italic">"${c.pesan}"</p>
-                        </div>`;
-                        container.innerHTML += html;
-                    });
-                }
-            } catch (e) {
-                console.log("Gagal memuat komentar", e);
-                document.getElementById('loadingComments').innerHTML = "<p>Gagal memuat pesan.</p>";
-            }
+                const res = await fetch(SCRIPT_URL);
+                const data = await res.json();
+                const container = document.getElementById('commentsContainer');
+                container.innerHTML = data.length ? "" : "<p class='text-center'>Belum ada ucapan.</p>";
+                data.forEach(c => {
+                    container.innerHTML += `<div class="comment-item"><h4 class="font-bold">${c.nama} <small class="text-amber-600">(${c.kelas})</small></h4><p class="text-gray-600 italic">"${c.pesan}"</p><span class="text-[10px] text-gray-400">${c.waktu}</span></div>`;
+                });
+            } catch (e) { document.getElementById('loadingComments').innerText = "Gagal memuat."; }
         }
-        window.addEventListener('load', loadComments);
 
+        window.onload = () => { loadComments(); loadDinamisAset(); };
     </script>
 </body>
 </html>
