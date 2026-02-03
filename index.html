@@ -182,7 +182,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzPwV9RsBOG4zQkbPyIS9GLqJYy2ElyX5uwAxEoKZ8uB9Q2p3DRn7MWdIHsP-jIXc-n8Q/exec"; 
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwiZZWRncEHHEydjzLbNUxCYs1lUyly3z2uYw93Voh2ti9l-n6fgDHvelfE9yc7R-xkAg/exec"; 
 
         var swiper = new Swiper(".mySwiper", { spaceBetween: 0, effect: "fade", autoplay: { delay: 4000 }, pagination: { el: ".swiper-pagination", clickable: true }, navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" } });
 
@@ -205,20 +205,46 @@
         document.addEventListener('click', function(){ music.play().catch(()=>{}); }, {once: true});
 
         async function loadDinamisAset() {
-            try {
-                const res = await fetch(SCRIPT_URL + "?type=aset");
-                const data = await res.json();
-                if(data.rundown) document.getElementById('rundownImg').src = data.rundown;
-                if(data.galeri && data.galeri.length > 0) {
-                    const wrapper = document.getElementById('swiperWrapper');
-                    wrapper.innerHTML = "";
-                    data.galeri.forEach((url, i) => {
-                        wrapper.innerHTML += `<div class="swiper-slide"><img src="${url}" loading="lazy"><div class="slide-caption"><h3 class="text-2xl font-bold">Kenangan #${i+1}</h3></div></div>`;
-                    });
-                    swiper.update();
-                }
-            } catch (e) { console.error("Aset Error:", e); }
+    try {
+        // Tambahkan timestamp agar tidak terkena cache browser
+        const res = await fetch(SCRIPT_URL + "?type=aset&t=" + new Date().getTime());
+        const data = await res.json();
+        
+        // Update Rundown
+        if(data.rundown) {
+            const rdImg = document.getElementById('rundownImg');
+            rdImg.src = data.rundown;
+            rdImg.onerror = function() { this.src = "https://via.placeholder.com/800x600?text=Gagal+Memuat+Gambar"; };
         }
+
+        // Update Galeri
+        if(data.galeri && data.galeri.length > 0) {
+            const wrapper = document.getElementById('swiperWrapper');
+            wrapper.innerHTML = ""; // Bersihkan pesan "Memuat..."
+            
+            data.galeri.forEach((url, i) => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                slide.innerHTML = `
+                    <img src="${url}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=Error+Load'">
+                    <div class="slide-caption">
+                        <h3 class="text-2xl font-bold">Kenangan #${i+1}</h3>
+                    </div>
+                `;
+                wrapper.appendChild(slide);
+            });
+            
+            // Re-inisialisasi Swiper agar mendeteksi slide baru
+            if (typeof swiper !== 'undefined') {
+                swiper.update();
+                swiper.autoplay.start();
+            }
+        }
+    } catch (e) { 
+        console.error("Aset Error:", e);
+        document.getElementById('loadingComments').innerText = "Gagal memuat aset dari Drive.";
+    }
+}
 
         async function submitToGoogleSheet(e) {
             e.preventDefault();
