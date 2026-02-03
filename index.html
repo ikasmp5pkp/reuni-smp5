@@ -289,16 +289,16 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 
     <script>
-        // 1. Konfigurasi Galeri Swiper (Kekinian Full Page Slider)
+        // 1. Konfigurasi Galeri Swiper
         var swiper = new Swiper(".mySwiper", {
             spaceBetween: 0,
             centeredSlides: true,
-            effect: "fade", // Efek pudar yang elegan
+            effect: "fade",
             autoplay: {
-                delay: 4000, // Geser otomatis setiap 4 detik
+                delay: 4000,
                 disableOnInteraction: false,
             },
             pagination: {
@@ -312,58 +312,75 @@
         });
 
         // 2. Logic Countdown Timer
-        // Set tanggal reuni (Contoh: 20 Oktober 2024). Ubah tanggal ini sesuai kebutuhan.
         const countDownDate = new Date("Oct 20, 2024 08:00:00").getTime();
 
         const x = setInterval(function() {
             const now = new Date().getTime();
             const distance = countDownDate - now;
 
-            // Perhitungan waktu
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Menampilkan hasil
             document.getElementById("days").innerText = days < 10 ? "0" + days : days;
             document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
             document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
             document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
 
-            // Jika waktu habis
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("countdown").innerHTML = "<div class='text-2xl font-bold text-white'>ACARA SEDANG BERLANGSUNG!</div>";
             }
         }, 1000);
 
-        // 3. Logic Musik Latar
+        // 3. Logic Musik Latar (AUTO PLAY TRICK)
         const music = document.getElementById("bgMusic");
         const musicBtn = document.getElementById("musicBtn");
         const musicIcon = document.getElementById("musicIcon");
+        let isPlaying = false;
 
         function toggleMusic() {
-            if (music.paused) {
-                music.play();
-                musicBtn.classList.remove("paused");
-                musicIcon.classList.remove("fa-play");
-                musicIcon.classList.add("fa-pause");
-            } else {
+            if (isPlaying) {
                 music.pause();
                 musicBtn.classList.add("paused");
                 musicIcon.classList.remove("fa-pause");
                 musicIcon.classList.add("fa-play");
+                isPlaying = false;
+            } else {
+                music.play();
+                musicBtn.classList.remove("paused");
+                musicIcon.classList.remove("fa-play");
+                musicIcon.classList.add("fa-pause");
+                isPlaying = true;
             }
         }
-        
-        // Opsional: Coba autoplay saat user pertama kali scroll atau klik di halaman (karena browser memblokir autoplay audio)
-        document.body.addEventListener('click', function() {
-            if (music.paused && musicBtn.classList.contains("paused")) {
-                // Uncomment baris di bawah jika ingin musik otomatis nyala saat klik pertama user di mana saja
-                // toggleMusic(); 
-            }
-        }, { once: true });
+
+        // --- Fitur Paksa Autoplay Saat Interaksi Pertama ---
+        function startMusicOnFirstInteraction() {
+            // Coba mainkan musik
+            music.play().then(() => {
+                // Jika berhasil, update status tombol
+                musicBtn.classList.remove("paused");
+                musicIcon.classList.remove("fa-play");
+                musicIcon.classList.add("fa-pause");
+                isPlaying = true;
+                
+                // Hapus event listener agar tidak bentrok nanti
+                document.removeEventListener('click', startMusicOnFirstInteraction);
+                document.removeEventListener('scroll', startMusicOnFirstInteraction);
+                document.removeEventListener('touchstart', startMusicOnFirstInteraction);
+            }).catch(error => {
+                // Autoplay gagal (biasanya karena belum ada interaksi user), biarkan silent dulu
+                console.log("Menunggu interaksi user untuk memutar musik.");
+            });
+        }
+
+        // Pasang "jebakan" di seluruh dokumen
+        // Begitu user klik, scroll, atau sentuh layar di mana saja, musik akan nyala
+        document.addEventListener('click', startMusicOnFirstInteraction);
+        document.addEventListener('scroll', startMusicOnFirstInteraction);
+        document.addEventListener('touchstart', startMusicOnFirstInteraction);
 
     </script>
 </body>
