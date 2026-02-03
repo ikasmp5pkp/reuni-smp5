@@ -220,7 +220,7 @@
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="text-xs font-bold text-gray-600">Nama</label>
+                                <label class="text-xs font-bold text-gray-600">Nama Lengkap</label>
                                 <input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none" type="text" placeholder="Nama Lengkap">
                             </div>
                             <div>
@@ -232,21 +232,26 @@
                             </div>
                         </div>
 
+                        <div class="mb-4">
+                            <label class="text-xs font-bold text-gray-600">No. WA / HP</label>
+                            <input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel" placeholder="08xxx">
+                        </div>
+
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="text-xs font-bold text-gray-600">No. WA</label>
-                                <input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel" placeholder="08xxx">
+                                <label class="text-xs font-bold text-gray-600">Tahun Angkatan (Lulus)</label>
+                                <input name="angkatan" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="number" placeholder="Contoh: 1998" min="1950">
                             </div>
                             <div>
-                                <label class="text-xs font-bold text-gray-600">Angkatan/Kelas</label>
-                                <input name="kelas" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text" placeholder="Thn 1998 / 3C">
+                                <label class="text-xs font-bold text-gray-600">Kelas Terakhir</label>
+                                <input name="kelas" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text" placeholder="Contoh: 3C / 3-1">
                             </div>
                         </div>
 
                         <div class="grid grid-cols-2 gap-4 mb-4">
                             <div>
-                                <label class="text-xs font-bold text-gray-600">Email</label>
-                                <input name="email" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="email">
+                                <label class="text-xs font-bold text-gray-600">Email Aktif</label>
+                                <input name="email" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="email" placeholder="nama@email.com">
                             </div>
                             <div>
                                 <label class="text-xs font-bold text-gray-600">Pekerjaan</label>
@@ -254,13 +259,15 @@
                             </div>
                         </div>
 
-                        <div class="mb-4">
-                            <label class="text-xs font-bold text-gray-600">Bukti Transfer (Sri Lestari - BCA)</label>
-                            <input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs p-2 border rounded">
+                        <div class="mb-4 bg-gray-50 p-3 rounded border border-dashed border-gray-300">
+                            <label class="text-xs font-bold text-gray-700 block mb-1">Bukti Transfer (BCA - Sri Lestari)</label>
+                            <p class="text-[10px] text-red-500 mb-2 italic">*Format gambar, Ukuran Maksimal 1 MB</p>
+                            <input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs p-1">
                         </div>
-                        <div class="mb-4">
-                            <label class="text-xs font-bold text-gray-600">Foto Selfie</label>
-                            <input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs p-2 border rounded">
+                        <div class="mb-4 bg-gray-50 p-3 rounded border border-dashed border-gray-300">
+                            <label class="text-xs font-bold text-gray-700 block mb-1">Foto Selfie (Wajah Tampak Depan)</label>
+                            <p class="text-[10px] text-red-500 mb-2 italic">*Wajib tampak depan jelas, Ukuran Maksimal 1 MB</p>
+                            <input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs p-1">
                         </div>
 
                         <div class="mb-6">
@@ -301,6 +308,7 @@
 
     <script>
         // --- 1. SETTING GOOGLE SCRIPT (WAJIB DIISI) ---
+        // PASTIKAN ANDA MEMPERBARUI GOOGLE APPS SCRIPT JUGA (LIHAT DI BAWAH)
         const SCRIPT_URL = "URL_GOOGLE_SCRIPT_ANDA_DISINI"; 
 
         // --- 2. LOGIC GALERI ---
@@ -340,7 +348,7 @@
         }
         document.addEventListener('click', startMusicFirst); document.addEventListener('scroll', startMusicFirst);
 
-        // --- 5. LOGIC FORM SUBMIT ---
+        // --- 5. LOGIC FORM SUBMIT (DENGAN VALIDASI) ---
         async function submitToGoogleSheet(e) {
             e.preventDefault();
             if(SCRIPT_URL.includes("URL_GOOGLE_SCRIPT")) { Swal.fire('Error', 'Admin belum update URL Script', 'error'); return; }
@@ -351,8 +359,23 @@
             const fileBukti = document.getElementById('fileBukti').files[0];
             const fileSelfie = document.getElementById('fileSelfie').files[0];
 
-            if (fileBukti.size > 1024 * 1024 || fileSelfie.size > 1024 * 1024) {
-                Swal.fire('File Terlalu Besar', 'Maksimal ukuran foto adalah 1 MB.', 'warning'); return;
+            // 1. Validasi Email (Regex)
+            const email = form['email'].value;
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                Swal.fire('Email Tidak Valid', 'Mohon masukkan alamat email yang benar (contoh: nama@gmail.com).', 'warning');
+                return;
+            }
+
+            // 2. Validasi Ukuran File (Maksimal 1MB)
+            const maxFileSize = 1024 * 1024; // 1 MB dalam bytes
+            if (fileBukti.size > maxFileSize) {
+                Swal.fire('Bukti Transfer Terlalu Besar', 'Maksimal ukuran file Bukti Transfer adalah 1 MB.', 'warning'); 
+                return;
+            }
+            if (fileSelfie.size > maxFileSize) {
+                Swal.fire('Foto Selfie Terlalu Besar', 'Maksimal ukuran file Selfie adalah 1 MB.', 'warning'); 
+                return;
             }
 
             submitBtn.disabled = true; 
@@ -367,7 +390,8 @@
                     gender: form['gender'].value,
                     whatsapp: form['whatsapp'].value,
                     email: form['email'].value,
-                    kelas: form['kelas'].value,
+                    angkatan: form['angkatan'].value, // Data Baru
+                    kelas: form['kelas'].value,       // Data Baru
                     pekerjaan: form['pekerjaan'].value,
                     pesan: form['pesan'].value,
                     fileBukti: buktiBase64,
@@ -380,7 +404,7 @@
 
                 Swal.fire({ title: 'Berhasil!', text: 'Pendaftaran diterima. Pesan Anda muncul di bawah.', icon: 'success' });
                 form.reset();
-                loadComments(); // Reload komentar
+                loadComments(); 
 
             } catch (error) {
                 console.error(error); Swal.fire('Gagal', 'Terjadi kesalahan jaringan.', 'error');
@@ -394,7 +418,7 @@
             reader.onload = () => resolve(reader.result.split(',')[1]); reader.onerror = error => reject(error);
         });
 
-        // --- 6. LOGIC LOAD KOMENTAR (LIVE) ---
+        // --- 6. LOGIC LOAD KOMENTAR ---
         async function loadComments() {
             if(SCRIPT_URL.includes("URL_GOOGLE_SCRIPT")) return;
             
