@@ -129,30 +129,26 @@
         <div class="container mx-auto px-6 max-w-5xl">
             <div class="bg-white rounded-3xl shadow-2xl overflow-hidden flex flex-col md:flex-row">
                 <div class="bg-gray-800 text-white p-8 md:w-1/3 flex flex-col justify-center">
-                    <h3 class="text-2xl font-bold mb-4 text-amber-500 serif-font">Informasi Biaya</h3>
+                    <h3 class="text-2xl font-bold mb-4 text-amber-500 serif-font">Info Biaya</h3>
                     <div class="mb-6">
                         <p class="text-3xl font-bold">Rp 50.000</p>
-                        <p class="text-sm text-amber-200 mt-1 italic">Mencakup Konsumsi Peserta & Souvenir Kenang-kenangan</p>
+                        <p class="text-sm text-amber-200 mt-1 italic">Konsumsi & Souvenir Eksklusif</p>
                     </div>
                     <div class="bg-gray-700 p-4 rounded-lg mb-4 border-l-4 border-amber-500">
                         <p class="text-xs text-gray-400 uppercase">Bank BCA</p>
                         <p class="text-xl font-mono font-bold">8535-6131-99</p>
                         <p class="text-sm">A.n : Sri Lestari</p>
                     </div>
-                    <div class="mt-4 pt-6 border-t border-gray-700">
-                        <p class="text-[10px] font-bold text-amber-500 uppercase mb-3 tracking-widest">Pusat Bantuan</p>
-                        <a href="https://wa.me/6287771535673" target="_blank" class="text-xs flex items-center mb-3 hover:text-amber-400 transition-colors">
-                            <i class="fab fa-whatsapp mr-2 text-lg"></i> Admin Pendaftaran
-                        </a>
-                        <p class="text-[11px] flex items-center opacity-80">
-                            <i class="far fa-envelope mr-2 text-lg"></i> alumni.smp5pkp@gmail.com
-                        </p>
+                    <div class="mt-6 pt-6 border-t border-gray-700">
+                        <p class="text-xs font-bold text-amber-500 uppercase mb-2">Butuh Bantuan?</p>
+                        <a href="https://wa.me/6287771535673" class="text-sm flex items-center mb-2 hover:text-amber-400"><i class="fab fa-whatsapp mr-2"></i> Panitia (Sri Lestari)</a>
+                        <p class="text-sm flex items-center"><i class="far fa-envelope mr-2"></i> alumni.smp5pkp@gmail.com</p>
                     </div>
                 </div>
                 <div class="p-8 md:w-2/3">
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 focus:border-amber-500 outline-none"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 outline-none"></div>
                             <div><label class="text-xs font-bold uppercase text-gray-500">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50"><option value="L">Pria</option><option value="P">Wanita</option></select></div>
                         </div>
                         <div class="mb-4"><label class="text-xs font-bold uppercase text-gray-500">No. WA</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
@@ -160,12 +156,13 @@
                             <div><label class="text-xs font-bold uppercase text-amber-700">Angkatan</label><input name="angkatan" required class="w-full p-2 border rounded bg-gray-50" type="number"></div>
                             <div><label class="text-xs font-bold uppercase text-amber-700">Kelas</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50"></div>
                         </div>
-                        <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer & Selfie</label>
-                            <input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs mb-2 block">
-                            <input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs block">
+                         <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
+                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer (Max 1MB)</label><input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs">
                         </div>
-                        <div class="mb-6"><label class="text-xs font-bold uppercase text-gray-500">Kesan Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 focus:border-amber-500 h-20 text-sm"></textarea></div>
+                        <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
+                            <label class="text-xs font-bold uppercase text-gray-600">Foto Selfie (Max 1MB)</label><input id="fileSelfie" type="file" accept="image/*" required class="w-full text-xs">
+                        </div>
+                        <div class="mb-6"><label class="text-xs font-bold uppercase text-gray-500">Kesan Pesan</label><textarea name="pesan" required class="w-full p-3 border rounded bg-amber-50 h-20 text-sm"></textarea></div>
                         <button type="submit" id="submitBtn" class="w-full bg-gray-800 text-white font-bold py-3 rounded-lg flex justify-center items-center gap-2 hover:bg-black transition-colors"><span>Daftar Sekarang</span><div class="loader" id="btnLoader"></div></button>
                     </form>
                 </div>
@@ -175,7 +172,7 @@
 
     <section id="ucapan" class="py-20 bg-white border-t">
         <div class="container mx-auto px-6 max-w-3xl text-center">
-            <h2 class="text-3xl font-bold mb-8 serif-font">Salam & Doa</h2>
+            <h2 class="text-3xl font-bold mb-8 serif-font">Kesan & Pesan</h2>
             <div id="commentsContainer" class="comment-box text-left bg-gray-50 p-6 rounded-xl shadow-inner border border-gray-200">
                 <div class="text-center text-gray-400 py-10" id="loadingComments"><div class="loader inline-block"></div><p>Memuat...</p></div>
             </div>
