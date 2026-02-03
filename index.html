@@ -148,13 +148,13 @@
                 <div class="p-8 md:w-2/3">
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 outline-none"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama Lengkap (Tanpa Gelar)</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 outline-none"></div>
                             <div><label class="text-xs font-bold uppercase text-gray-500">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50"><option value="L">Pria</option><option value="P">Wanita</option></select></div>
                         </div>
-                        <div class="mb-4"><label class="text-xs font-bold uppercase text-gray-500">No. WA</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
+                        <div class="mb-4"><label class="text-xs font-bold">No. WA/HP (08xxx)</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold uppercase text-amber-700">Angkatan</label><input name="angkatan" required class="w-full p-2 border rounded bg-gray-50" type="number"></div>
-                            <div><label class="text-xs font-bold uppercase text-amber-700">Kelas</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50"></div>
+                            <div><label class="text-xs font-bold text-amber-700">Tahun Angkatan</label><input name="angkatan" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="number" placeholder="19xx"></div>
+                            <div><label class="text-xs font-bold text-amber-700">Kelas Terakhir</label><input name="kelas" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text" placeholder="3A"></div>
                         </div>
                          <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
                             <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer (Max 1MB)</label><input id="fileBukti" type="file" accept="image/*" required class="w-full text-xs">
