@@ -148,7 +148,7 @@
                 <div class="p-8 md:w-2/3">
                     <form id="reuniForm" onsubmit="submitToGoogleSheet(event)">
                         <div class="grid grid-cols-2 gap-4 mb-4">
-                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama Lengkap (Tanpa Gelar)</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 outline-none"></div>
+                            <div><label class="text-xs font-bold uppercase text-gray-500">Nama Lengkap</label><input name="nama" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="text" pattern="[A-Za-z]*" placeholder="Tanpa Gelar"></div>
                             <div><label class="text-xs font-bold uppercase text-gray-500">Gender</label><select name="gender" required class="w-full p-2 border rounded bg-gray-50"><option value="L">Pria</option><option value="P">Wanita</option></select></div>
                         </div>
                         <div class="mb-4"><label class="text-xs font-bold">No. WA/HP (08xxx)</label><input name="whatsapp" required class="w-full p-2 border rounded bg-gray-50 outline-none" type="tel"></div>
