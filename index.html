@@ -158,11 +158,11 @@
                         </div>
                         
                         <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer</label>
+                            <label class="text-xs font-bold uppercase text-gray-600">Bukti Transfer (Max 10MB)</label>
                             <input id="fileBukti" type="file" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/*" required class="w-full text-xs">
                         </div>
                         <div class="mb-4 bg-gray-50 p-3 rounded border-dashed border border-gray-300">
-                            <label class="text-xs font-bold uppercase text-gray-600">Foto Selfie</label>
+                            <label class="text-xs font-bold uppercase text-gray-600">Foto Selfie (Max 10MB)</label>
                             <input id="fileSelfie" type="file" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic, image/*" required class="w-full text-xs">
                         </div>
 
@@ -194,6 +194,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     <script>
+        // GANTI DENGAN LINK DEPLOY TERBARU ANDA
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbweecH__MLaN75kkCkPVgUB4fv2sxMPGNoGh1BWQKSiERiR3TJBvaBzyVizZKKmTDLbbA/exec"; 
 
         // Smooth Entrance Observer
@@ -272,15 +273,34 @@
         async function submitToGoogleSheet(e) {
             e.preventDefault();
             const form = e.target, btn = document.getElementById('submitBtn'), loader = document.getElementById('btnLoader');
+            
+            // --- MODIFIKASI: VALIDASI UKURAN FILE MAX 10MB ---
+            const fileBukti = document.getElementById('fileBukti').files[0];
+            const fileSelfie = document.getElementById('fileSelfie').files[0];
+            const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
+
+            // Cek Ukuran File Bukti
+            if (fileBukti && fileBukti.size > MAX_SIZE) {
+                Swal.fire('File Terlalu Besar', 'Ukuran Bukti Transfer maksimal 10MB.', 'warning');
+                return;
+            }
+
+            // Cek Ukuran File Selfie
+            if (fileSelfie && fileSelfie.size > MAX_SIZE) {
+                Swal.fire('File Terlalu Besar', 'Ukuran Foto Selfie maksimal 10MB.', 'warning');
+                return;
+            }
+            // ------------------------------------------------
+
             btn.disabled = true; loader.style.display = "block";
             try {
                 const data = {
                     nama: form['nama'].value, gender: form['gender'].value, whatsapp: form['whatsapp'].value,
                     email: form['email'].value || '-', angkatan: form['angkatan'].value, kelas: form['kelas'].value,
                     pekerjaan: '-', pesan: form['pesan'].value,
-                    fileBukti: await toBase64(document.getElementById('fileBukti').files[0]),
-                    fileSelfie: await toBase64(document.getElementById('fileSelfie').files[0]),
-                    mimeBukti: document.getElementById('fileBukti').files[0].type, mimeSelfie: document.getElementById('fileSelfie').files[0].type
+                    fileBukti: await toBase64(fileBukti),
+                    fileSelfie: await toBase64(fileSelfie),
+                    mimeBukti: fileBukti.type, mimeSelfie: fileSelfie.type
                 };
                 await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(data) });
                 Swal.fire('Berhasil!', 'Pendaftaran terkirim.', 'success'); form.reset(); loadComments();
